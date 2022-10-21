@@ -8,7 +8,7 @@ export interface InputFieldError {
     passwordError: string
 }
 
-export const initialState = {
+export const initialStates = {
     email: '',
     password: ''
 }

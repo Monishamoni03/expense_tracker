@@ -3,11 +3,11 @@ interface InputField {
     password: string
 }
 
-type InitialState = {
+interface InitialState {
     fields: InputField[]
 }
 
-type InitialAction = {
+interface InitialAction {
     type: string,
     payload: object
 }

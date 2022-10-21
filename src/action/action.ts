@@ -12,7 +12,7 @@ export function loginData(action: InitialAction) {
             .then((res) => {
                 if (res) {
                     console.log("Response Login: ", res);
-                    dispatch(loginUser(res.data))
+                    dispatch(action)
                 }
             })
             .catch((error) => {

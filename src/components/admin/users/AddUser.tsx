@@ -1,22 +1,17 @@
 import React, { useState } from "react";
-import "../../assets/css/Style";
-import "../login/Login.css";
-import ValidateLogin from "../../shared/utils/ValidateLogin";
-import { initialStates, initialStateError, InputField, InputFieldError } from "../../shared/types/LoginTypes";
-import NavBar from "../common/NavBar";
-import Footer from "../common/Footer";
-import { useDispatch } from "react-redux";
-import { loginData } from "../../action/action";
+import "../../../assets/css/Style";
+import "../../login/Login.css"
+import { initialStates, initialStateError, InputField, InputFieldError } from "../../../shared/types/LoginTypes";
 import { useNavigate } from "react-router-dom";
+import ValidateLogin from "../../../shared/utils/ValidateLogin";
+import NavBar from "../../common/NavBar";
 
-const Login: React.FC = () => {
+const AddUser: React.FC = () => {
 
     const [values, setValues] = useState<InputField>(initialStates);
     const [error, setError] = useState<InputFieldError>(initialStateError);
-    // const [buttonDisable, setButtonDisable] = useState(true)
-
+   
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValues({
             ...values,
@@ -37,8 +32,7 @@ const Login: React.FC = () => {
         if (isValid) {
             console.log("Successfully logged in");
             console.log("Output values", values);           //printing result 
-            navigate('/admin');
-            // dispatch(loginData(values));
+            navigate('/users');
             setValues(initialStates);
         }
     };
@@ -48,7 +42,7 @@ const Login: React.FC = () => {
             <NavBar />
             <div className='wrapper'>
                 <div className='form-wrapper'>
-                    <h2>LOGIN</h2>
+                    <h2>ADD USER</h2>
                     <form className="login">
                         <div className='login-form'>
                             <label htmlFor="email">Email <sup>*</sup></label>
@@ -66,9 +60,8 @@ const Login: React.FC = () => {
                     </form>
                 </div>
             </div>
-            <Footer />
         </>
     )
 }
 
-export default Login;
+export default AddUser;
