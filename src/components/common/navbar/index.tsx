@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import "./NavBar.css";
+import HomeIcon from '@mui/icons-material/Home';
+import LoginIcon from '@mui/icons-material/Login';
+import "./index.css";
 
 const NavBar: React.FC = () => {
   const [activeTab, setActiveTab] = useState("");
@@ -20,10 +22,10 @@ const NavBar: React.FC = () => {
         <p className='logo'>Expense Tracker</p>
         <div className='header-right'>
           <Link to='/'>
-            <p className={`${activeTab === 'Home' ? 'active' : ''}`} onClick={() => setActiveTab('Home')}>Home |</p>
+            <p className={`${activeTab === 'Home' ? 'active' : ''}`} onClick={() => setActiveTab('Home')}><HomeIcon />{" "}Home |</p>
           </Link>
           <Link to='/login'>
-            <p className={`${activeTab === 'Login' ? 'active' : ''}`} onClick={() => setActiveTab('Login')}>Login</p>
+            <p className={`${activeTab === 'Login' ? 'active' : ''}`} onClick={() => setActiveTab('Login')}><LoginIcon />{" "}Login</p>
           </Link>
         </div>
       </div>

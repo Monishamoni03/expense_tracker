@@ -1,10 +1,17 @@
 import * as regex from "../constants/regex";
-import { initialStateError, InputField } from "../types/LoginTypes";
+import { InputField } from "../types/type";
+import { initialStateError } from "../types/types";
 
 const ValidateLogin: React.FC <InputField> = (values): any => {
     console.log("Entered login validation");
     // const values = (initialState);
     const error = (initialStateError);
+    // const error = {
+    //     emailError: '',
+    //     passwordError: ''
+    // }
+    console.log("initial State : ", error);
+    
 
     if (values.email === "") {
         error.emailError = "Please enter your email";

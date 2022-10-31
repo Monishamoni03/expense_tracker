@@ -1,138 +1,143 @@
 {
-    "user": [
-        {
-            "id": 1,
-            "email": "monishamoni7327@gmail.com",
-            "password": "Monisha@123",
-            "role": "Admin"
-        },
-        {
-            "id": 2,
-            "email": "pathma01@gmail.com",
-            "password": "Pathma@123",
-            "role": "Employee"
-        },
-        {
-            "id": 3,
-            "email": "ganesha@gmail.com",
-            "password": "Ganesha@123",
-            "role": "Accountant"
-        },
-        {
-            "id": 4,
-            "email": "sairam1503@gmail.com",
-            "password": "Sairam@123",
-            "role": "Admin"
-        },
-        {
-            "id": 5,
-            "email": "ajayk03@gmail.com",
-            "password": "Ajay@123",
-            "role": "Accountant"
-        },
-        {
-            "id": 6,
-            "email": "madhumithra28@gmail.com",
-            "password": "Madhu@123",
-            "role": "Employee"
-        },
-        {
-            "id": 7,
-            "email": "vijayakarthika@gmail.com",
-            "password": "Vijaya@123",
-            "role": "Employee"
-        },
-        {
-            "id": 8,
-            "email": "saravana21@gmail.com",
-            "password": "Saravana@123",
-            "role": "Accountant"
-        },
-        {
-            "id": 9,
-            "email": "kaviyag03@gmail.com",
-            "password": "Kaviya@123",
-            "role": "Employee"
-        },
-        {
-            "id": 10,
-            "email": "ragulk@gmail.com",
-            "password": "Ragul@123",
-            "role": "Accountant"
-        }
-    ],
-    "roles": [
-        {
-            "id": 100,
-            "roleName": "admin"
-        },
-        {
-            "id": 200,
-            "roleName": "accountant"
-        },
-        {
-            "id": 300,
-            "roleName": "employee"
-        }
-    ],
-    "departments": [
-        {
-            "id": 1000,
-            "deptName": "LAMP"
-        },
-        {
-            "id": 1001,
-            "deptName": "BFS"
-        },
-        {
-            "id": 1002,
-            "deptName": "Java"
-        },
-        {
-            "id": 1003,
-            "deptName": "Testing"
-        },
-        {
-            "id": 1004,
-            "deptName": "Mobility"
-        },
-        {
-            "id": 1005,
-            "deptName": "DotNet"
-        },
-        {
-            "id": 1006,
-            "deptName": "Oracle"
-        },
-        {
-            "id": 1007,
-            "deptName": "IAS"
-        }
-    ],
-    "categories": [
-        {
-            "id": 2000,
-            "categoryName": "Food"
-        },
-        {
-            "id": 2001,
-            "categoryName": "Travel"
-        },
-        {
-            "id": 2002,
-            "categoryName": "Transport"
-        },
-        {
-            "id": 2003,
-            "categoryName": "Healthcare"
-        },
-        {
-            "id": 2004,
-            "categoryName": "Insurance"
-        },
-        {
-            "id": 2005,
-            "categoryName": "Personal"
-        }
-    ]
+  "user": [
+    {
+      "id": 1,
+      "email": "monishamoni7327@gmail.com",
+      "password": "Monisha@123",
+      "role": "Admin"
+    },
+    {
+      "id": 2,
+      "email": "pathma01@gmail.com",
+      "password": "Pathma@123",
+      "role": "Employee"
+    },
+    {
+      "id": 3,
+      "email": "ganesha@gmail.com",
+      "password": "Ganesha@123",
+      "role": "Accountant"
+    },
+    {
+      "id": 4,
+      "email": "sairam1503@gmail.com",
+      "password": "Sairam@123",
+      "role": "Admin"
+    },
+    {
+      "id": 5,
+      "email": "ajayk03@gmail.com",
+      "password": "Ajay@123",
+      "role": "Accountant"
+    },
+    {
+      "id": 6,
+      "email": "madhumithra28@gmail.com",
+      "password": "Madhu@123",
+      "role": "Employee"
+    },
+    {
+      "id": 7,
+      "email": "vijayakarthika@gmail.com",
+      "password": "Vijaya@123",
+      "role": "Employee"
+    },
+    {
+      "id": 8,
+      "email": "saravana21@gmail.com",
+      "password": "Saravana@123",
+      "role": "Accountant"
+    },
+    {
+      "id": 9,
+      "email": "kaviyag03@gmail.com",
+      "password": "Kaviya@123",
+      "role": "Employee"
+    },
+    {
+      "id": 10,
+      "email": "ragulk@gmail.com",
+      "password": "Ragul@123",
+      "role": "Accountant"
+    },
+    {
+      "email": "sairam@gmail.com",
+      "password": "Sairam@123",
+      "id": 11
+    }
+  ],
+  "roles": [
+    {
+      "id": 100,
+      "roleName": "admin"
+    },
+    {
+      "id": 200,
+      "roleName": "accountant"
+    },
+    {
+      "id": 300,
+      "roleName": "employee"
+    }
+  ],
+  "departments": [
+    {
+      "id": 1000,
+      "deptName": "LAMP"
+    },
+    {
+      "id": 1001,
+      "deptName": "BFS"
+    },
+    {
+      "id": 1002,
+      "deptName": "Java"
+    },
+    {
+      "id": 1003,
+      "deptName": "Testing"
+    },
+    {
+      "id": 1004,
+      "deptName": "Mobility"
+    },
+    {
+      "id": 1005,
+      "deptName": "DotNet"
+    },
+    {
+      "id": 1006,
+      "deptName": "Oracle"
+    },
+    {
+      "id": 1007,
+      "deptName": "IAS"
+    }
+  ],
+  "categories": [
+    {
+      "id": 2000,
+      "categoryName": "Food"
+    },
+    {
+      "id": 2001,
+      "categoryName": "Travel"
+    },
+    {
+      "id": 2002,
+      "categoryName": "Transport"
+    },
+    {
+      "id": 2003,
+      "categoryName": "Healthcare"
+    },
+    {
+      "id": 2004,
+      "categoryName": "Insurance"
+    },
+    {
+      "id": 2005,
+      "categoryName": "Personal"
+    }
+  ]
 }

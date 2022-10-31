@@ -57,6 +57,18 @@ module.exports = {
                         loader: 'file-loader',
                     }
             },
+            // for page reload
+            {
+                test: /webpack-dev-server\\client/,
+                loader: "null-loader"                
+            },
+            // process/brower.js ? error
+            {
+                test: /\.m?js/,
+                resolve: {
+                    fullySpecified: false
+                } 
+            }
         ]
     }
 }

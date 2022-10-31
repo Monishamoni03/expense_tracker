@@ -1,7 +1,7 @@
 import React from "react";
-import NavBar from "./NavBar";
+import NavBar from "./navbar";
 import "../../assets/css/Style";
-import Footer from "./Footer";
+import Footer from "./footer";
 
 const Home: React.FC = () => {
     return (
