@@ -1,2 +1,7 @@
 export const LOGIN_USER = "LOGIN_USER";
 export const GET_ALL_USER = "GET_ALL_USER";
+export const ADD_USER_SUCCESS = "ADD_USER_SUCCESS";
+export const ADD_DEPT_SUCCESS = "ADD_DEPT_SUCCESS";
+export const ADD_CATEGORY_SUCCESS = "ADD_CATEGORY_SUCCESS";
+export const GET_ALL_DEPT = "GET_ALL_DEPT";
+export const GET_ALL_CATEGORY = "GET_ALL_CATEGORY"

@@ -1,6 +1,6 @@
 import React, { Dispatch, useState } from "react";
 import "../../assets/css/Style";
-import "../login/Login.css";
+import "./Login.css";
 import ValidateLogin from "../../shared/utils/ValidateLogin";
 import { initialStates, initialStateError } from "../../shared/types/types";
 import NavBar from "../common/navbar";
@@ -32,18 +32,6 @@ const Login: React.FC = () => {
             [e.target.name]: e.target.value
         })
     }
-
-    // const getData = () => {
-    //     fetch('http://localhost:5000/user')
-    //     .then(function(response) {
-    //         console.log("Fetching resp: ",response);
-    //         return response;
-    //     })
-    // }
-
-    // useEffect(() => {
-    //     getData()
-    // }, [])
 
     axios. 
     get('http://localhost:5000/user')
@@ -80,6 +68,7 @@ const Login: React.FC = () => {
             // dispatch(loginData(values));
             navigate('/admin');
             setValues(initialStates);
+
         }
     };
 
@@ -93,15 +82,15 @@ const Login: React.FC = () => {
                         <div className='login-form'>
                             <label htmlFor="email"><PersonIcon />{"   "}Email <sup>*</sup></label>
                             <input onChange={handleChange} name='email' value={values.email} placeholder="name@example.com" required />
-                            <div style={{ color: "red" }}>{error.emailError}</div>
+                            <div className="login-error">{error.emailError}</div>
                         </div>
                         <div className='login-form'>
                             <label htmlFor="password"><LockIcon />{"   "}Password <sup>*</sup></label>
                             <input onChange={handleChange} type='password' name='password' value={values.password} placeholder="Password@123" required />
-                            <div style={{ color: "red" }}>{error.passwordError}</div>
+                            <div className="login-error">{error.passwordError}</div>
                         </div>
                         <div className='submit'>
-                            <button className="login-button" onClick={handleSubmit} disabled={values === undefined ? true : false}>Submit</button>
+                            <button className="login-button" onClick={handleSubmit}>Submit</button>
                         </div>
                     </form>
                 </div>

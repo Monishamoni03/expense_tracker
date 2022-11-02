@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, useState } from "react";
 import "../../../assets/css/Style";
 import "../../login/Login.css";
 import { initialStateDept, initialStateDeptError } from "../../../shared/types/types";
@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../../common/navbar";
 import { DeptInputFieldError, DeptInputField } from "../../../shared/types/type";
 import ValidateDept from "../../../shared/utils/ValidateDept";
+import { store } from "../../../store/store";
+import { addDept } from "../../../action/action";
 
 const AddDepartment: React.FC = () => {
 
@@ -13,7 +15,9 @@ const AddDepartment: React.FC = () => {
     const [error, setError] = useState<DeptInputFieldError>(initialStateDeptError);
    
     const navigate = useNavigate();
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
+    
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setValues({
             ...values,
             [e.target.name]: e.target.value
@@ -30,6 +34,7 @@ const AddDepartment: React.FC = () => {
         })
         console.log("hello err: ", error);
         if (isValid) {
+            dispatchStore(addDept(values));
             console.log("Successfully Category Added to the table");
             console.log("Output values", values);    //printing result 
             navigate('/departments');
@@ -46,7 +51,7 @@ const AddDepartment: React.FC = () => {
                     <form className="login">
                         <div className='login-form'>
                             <label htmlFor="deptName">Department Name <sup>*</sup></label>
-                            <input onChange={handleChange} name='deptName' value={values.deptName} placeholder="Enter the department name" required />
+                            <input onChange={(e) => handleChange(e)} name='deptName' value={values.deptName} placeholder="Enter the department name" required />
                             <div style={{ color: "red" }}>{error.deptNameError}</div>
                         </div>
                         <div className='submit'>

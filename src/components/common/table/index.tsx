@@ -1,7 +1,7 @@
 import { IconButton, IconButtonProps, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import React from "react";
 import { RowProps, Table } from "react-bootstrap";
-import { ColumnProps, MUITableProps } from "../../shared/types/type";
+import { ColumnProps, MUITableProps } from "../../../shared/types/type";
 
 const TableData: React.FC<MUITableProps> = ({ rows, columns }: MUITableProps) => {
     return (

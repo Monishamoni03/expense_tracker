@@ -1,9 +1,14 @@
-import { IconButtonProps } from "@mui/material"
+import { IconButtonProps } from "@mui/material";
 import { TableProps } from "@mui/material";
 
 interface InputField {
-    email: string,
-    password: string
+    email?: string,
+    password?: string,
+    category?: string,
+    department?: string,
+    role?: string,
+    deptName?: string,
+    categoryName?: string
 }
 
 interface InputFieldError {
@@ -14,8 +19,7 @@ interface InputFieldError {
 interface InputFieldUser {
     email: string,
     password: string,
-    category: string,
-    department: string
+    role: string
 }
 
 interface DeptInputField {
@@ -38,9 +42,15 @@ interface InitialLoginAction {
     payload: InputField
 }
 
+
 interface UserState {
-    users: InputField[];
-    user: InputField
+    users?: InputField[];
+    user: InputField;
+    addUserSuccess: InputField;
+    addDeptSuccess: InputField;
+    depts: InputField[];
+    addCategorySuccess: InputField;
+    categories: InputField[]
 }
 
 export type UserActionsTypes = InitialLoginAction
@@ -52,7 +62,11 @@ interface ColumnProps {
 }
 
 interface RowProps {
-    key: number,
+    key?: string,
+    email?: string,
+    password?: string,
+    role?: string,
+    id?: string,
     actionButtons?: IconButtonProps[]
 }
 

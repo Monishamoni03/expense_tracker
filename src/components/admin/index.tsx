@@ -4,7 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import NavBar from "../common/navbar";
-import Buttons from "../button/Button";
+import Buttons from "../common/button/Button";
 
 const Admin: React.FC = () => {
 

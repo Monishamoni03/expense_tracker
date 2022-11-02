@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "../common/navbar";
 import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell } from "@mui/material";
-import TableData from "../table";
+import TableData from "../common/table";
 
 const Accountant: React.FC = () => {
     const columnsAcc: { title: string; key: string}[] = [

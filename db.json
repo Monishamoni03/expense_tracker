@@ -1,143 +1,172 @@
 {
   "user": [
     {
-      "id": 1,
       "email": "monishamoni7327@gmail.com",
       "password": "Monisha@123",
-      "role": "Admin"
+      "role": "Admin",
+      "id": 1
     },
     {
-      "id": 2,
       "email": "pathma01@gmail.com",
       "password": "Pathma@123",
-      "role": "Employee"
+      "role": "Employee",
+      "id": 2
     },
     {
-      "id": 3,
       "email": "ganesha@gmail.com",
       "password": "Ganesha@123",
-      "role": "Accountant"
+      "role": "Accountant",
+      "id": 3
     },
     {
-      "id": 4,
       "email": "sairam1503@gmail.com",
       "password": "Sairam@123",
-      "role": "Admin"
+      "role": "Admin",
+      "id": 4
     },
     {
-      "id": 5,
       "email": "ajayk03@gmail.com",
       "password": "Ajay@123",
-      "role": "Accountant"
+      "role": "Accountant",
+      "id": 5
     },
     {
-      "id": 6,
       "email": "madhumithra28@gmail.com",
       "password": "Madhu@123",
-      "role": "Employee"
+      "role": "Employee",
+      "id": 6
     },
     {
-      "id": 7,
       "email": "vijayakarthika@gmail.com",
       "password": "Vijaya@123",
-      "role": "Employee"
+      "role": "Employee",
+      "id": 7
     },
     {
-      "id": 8,
       "email": "saravana21@gmail.com",
       "password": "Saravana@123",
-      "role": "Accountant"
+      "role": "Accountant",
+      "id": 8
     },
     {
-      "id": 9,
       "email": "kaviyag03@gmail.com",
       "password": "Kaviya@123",
-      "role": "Employee"
+      "role": "Employee",
+      "id": 9
     },
     {
-      "id": 10,
       "email": "ragulk@gmail.com",
       "password": "Ragul@123",
-      "role": "Accountant"
+      "role": "Accountant",
+      "id": 10
     },
     {
-      "email": "sairam@gmail.com",
-      "password": "Sairam@123",
+      "email": "pavichandar@gmail.com",
+      "password": "Pavi@123",
+      "role": "accountant",
       "id": 11
+    },
+    {
+      "email": "kamali@gmail.com",
+      "password": "Kamali@123",
+      "role": "Employee",
+      "id": 12
+    },
+    {
+      "email": "swethambari@gmail.com",
+      "password": "Bari@123",
+      "role": "Accountant",
+      "id": 13
     }
   ],
   "roles": [
     {
-      "id": 100,
-      "roleName": "admin"
+      "roleName": "admin",
+      "id": 100
     },
     {
-      "id": 200,
-      "roleName": "accountant"
+      "roleName": "accountant",
+      "id": 200
     },
     {
-      "id": 300,
-      "roleName": "employee"
+      "roleName": "employee",
+      "id": 300
     }
   ],
   "departments": [
     {
-      "id": 1000,
-      "deptName": "LAMP"
+      "deptName": "LAMP",
+      "id": 1000
     },
     {
-      "id": 1001,
-      "deptName": "BFS"
+      "deptName": "BFS",
+      "id": 1001
     },
     {
-      "id": 1002,
-      "deptName": "Java"
+      "deptName": "Java",
+      "id": 1002
     },
     {
-      "id": 1003,
-      "deptName": "Testing"
+      "deptName": "Testing",
+      "id": 1003
     },
     {
-      "id": 1004,
-      "deptName": "Mobility"
+      "deptName": "Mobility",
+      "id": 1004
     },
     {
-      "id": 1005,
-      "deptName": "DotNet"
+      "deptName": "DotNet",
+      "id": 1005
     },
     {
-      "id": 1006,
-      "deptName": "Oracle"
+      "deptName": "Oracle",
+      "id": 1006
     },
     {
-      "id": 1007,
-      "deptName": "IAS"
+      "deptName": "IAS",
+      "id": 1007
+    },
+    {
+      "deptName": "Network",
+      "id": 1008
+    },
+    {
+      "deptName": "Finance",
+      "id": 1009
     }
   ],
   "categories": [
     {
-      "id": 2000,
-      "categoryName": "Food"
+      "categoryName": "Food",
+      "id": 2000
     },
     {
-      "id": 2001,
-      "categoryName": "Travel"
+      "categoryName": "Travel",
+      "id": 2001
     },
     {
-      "id": 2002,
-      "categoryName": "Transport"
+      "categoryName": "Transport",
+      "id": 2002
     },
     {
-      "id": 2003,
-      "categoryName": "Healthcare"
+      "categoryName": "Healthcare",
+      "id": 2003
     },
     {
-      "id": 2004,
-      "categoryName": "Insurance"
+      "categoryName": "Insurance",
+      "id": 2004
     },
     {
-      "id": 2005,
-      "categoryName": "Personal"
+      "categoryName": "Personal",
+      "id": 2005
+    },
+    {
+      "categoryName": "Medical",
+      "id": 2006
+    },
+    {
+      "categoryName": "Medical",
+      "id": 2007
     }
   ]
 }

@@ -62,7 +62,7 @@ module.exports = {
                 test: /webpack-dev-server\\client/,
                 loader: "null-loader"                
             },
-            // process/brower.js ? error
+            // process/browser error
             {
                 test: /\.m?js/,
                 resolve: {

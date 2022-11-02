@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, useState } from "react";
 import "../../../assets/css/Style";
 import "../../login/Login.css";
 import { initialStateCategory, initialStateCategoryError } from "../../../shared/types/types";
@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../../common/navbar";
 import { CategoryInputFieldError, CategoryInputField } from "../../../shared/types/type";
 import ValidateCategory from "../../../shared/utils/ValidateCategory";
+import { store } from "../../../store/store";
+import { addCategory } from "../../../action/action";
 
 const AddCategory: React.FC = () => {
 
@@ -13,7 +15,9 @@ const AddCategory: React.FC = () => {
     const [error, setError] = useState<CategoryInputFieldError>(initialStateCategoryError);
    
     const navigate = useNavigate();
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
+    
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setValues({
             ...values,
             [e.target.name]: e.target.value
@@ -30,6 +34,7 @@ const AddCategory: React.FC = () => {
         })
         console.log("hello err: ", error);
         if (isValid) {
+            dispatchStore(addCategory(values))
             console.log("Successfully Category Added to the table");
             console.log("Output values", values);    //printing result 
             navigate('/categories');
@@ -46,7 +51,7 @@ const AddCategory: React.FC = () => {
                     <form className="login">
                         <div className='login-form'>
                             <label htmlFor="categoryName">Category Name <sup>*</sup></label>
-                            <input onChange={handleChange} name='categoryName' value={values.categoryName} placeholder="Enter the category name" required />
+                            <input onChange={(e) => handleChange(e)} name='categoryName' value={values.categoryName} placeholder="Enter the category name" required />
                             <div style={{ color: "red" }}>{error.categoryNameError}</div>
                         </div>
                         <div className='submit'>
