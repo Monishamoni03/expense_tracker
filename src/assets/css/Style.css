@@ -58,3 +58,71 @@
   background: rgba(0, 0, 0, 0.7);
   padding: 50px;
 }
+
+/* for Menu - sidebar */
+
+.menu-container {
+  display: flex;
+  text-decoration: none;
+}
+
+main {
+  width: 100%;
+}
+
+.sidebar {
+  background: lightpink;
+  /* height: 270px; */
+  color: white;
+  transition: all 0.5s;
+}
+
+/* @media only screen and (max-width: 0px) {} */
+
+@media (max-width: 100px) {
+  .sidebar {
+    height: auto;
+  }
+}
+
+.top-section {
+  display: flex;
+  align-items: center;
+  padding: 30px 20px;
+}
+
+.link {
+  text-decoration: none;
+  display: flex;
+  color: black;
+}
+
+.link:hover {
+  background: grey;
+  color: rgb(184, 184, 201);
+  transition: all 0.5s;
+}
+
+.active {
+  background: lightskyblue;
+  color: black;
+}
+
+.icon,
+.link_text {
+  font-size: 18px;
+  padding: 0px;
+}
+
+.link_text {
+  margin-top: 10px;
+}
+
+.site-title {
+  font-family: 'Pacifico', cursive;
+}
+
+.menu-panel-link {
+  font-size: 20px;
+  font-weight: 600;
+}

@@ -47,9 +47,13 @@ interface UserState {
     users?: InputField[];
     user: InputField;
     addUserSuccess: InputField;
+    editUserSuccess: InputField;
+    deleteUserSuccess: InputField;
     addDeptSuccess: InputField;
+    deleteDeptSuccess: InputField;
     depts: InputField[];
     addCategorySuccess: InputField;
+    deleteCategorySuccess: InputField;
     categories: InputField[]
 }
 
@@ -66,6 +70,8 @@ interface RowProps {
     email?: string,
     password?: string,
     role?: string,
+    deptName?: string,
+    categoryName?: string,
     id?: string,
     actionButtons?: IconButtonProps[]
 }

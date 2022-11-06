@@ -37,12 +37,6 @@
       "id": 6
     },
     {
-      "email": "vijayakarthika@gmail.com",
-      "password": "Vijaya@123",
-      "role": "Employee",
-      "id": 7
-    },
-    {
       "email": "saravana21@gmail.com",
       "password": "Saravana@123",
       "role": "Accountant",
@@ -61,22 +55,8 @@
       "id": 10
     },
     {
-      "email": "pavichandar@gmail.com",
-      "password": "Pavi@123",
-      "role": "accountant",
+      "11": "",
       "id": 11
-    },
-    {
-      "email": "kamali@gmail.com",
-      "password": "Kamali@123",
-      "role": "Employee",
-      "id": 12
-    },
-    {
-      "email": "swethambari@gmail.com",
-      "password": "Bari@123",
-      "role": "Accountant",
-      "id": 13
     }
   ],
   "roles": [
@@ -129,10 +109,6 @@
     {
       "deptName": "Network",
       "id": 1008
-    },
-    {
-      "deptName": "Finance",
-      "id": 1009
     }
   ],
   "categories": [
@@ -163,10 +139,6 @@
     {
       "categoryName": "Medical",
       "id": 2006
-    },
-    {
-      "categoryName": "Medical",
-      "id": 2007
     }
   ]
 }

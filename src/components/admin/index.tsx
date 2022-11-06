@@ -1,54 +1,22 @@
 //Admin - WELCOME PAGE
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import "./index.css";
 import NavBar from "../common/navbar";
-import Buttons from "../common/button/Button";
+import Menu from "../common/menu/Menu";
 
 const Admin: React.FC = () => {
-
-  let navigate = useNavigate();
-
-  const availableUsers = () => {
-    navigate('/users')
-  }
-
-  const availableDepartments = () => {
-    navigate('/departments')
-  }
-
-  const availableCategories = () => {
-    navigate('/categories')
-  }
 
   return (
     <>
       <NavBar />
+      {/* <Menu /> */}
       <div className='admin-container'>
-        <h1 style={{ textAlign: "center", color: "red" }}>Welcome Admin</h1>
-        <div className="buttons">
-          {/* <button onClick={availableUsers} type='button' className="admin-button">See available users</button> */}
-          <Buttons
-            move=""
-            onClick={availableUsers}
-            text="See available users"
-          />
-          <Buttons
-            move=""
-            onClick={availableDepartments}
-            text="List of Departments"
-          />
-          <Buttons
-            move=""
-            onClick={availableCategories}
-            text="List of Categories"
-          />
-        </div>
+        <h1 style={{ textAlign: "center", color: "pink" }}>Welcome Admin</h1>        
       </div>
-      <div className='footer-container'>
+      {/* <div className='footer-container'>
         <p className='copyrights'>Expense Tracker © 2022</p>
-      </div>
+      </div> */}
     </>
   )
 }

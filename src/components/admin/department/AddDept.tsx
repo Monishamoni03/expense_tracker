@@ -37,7 +37,7 @@ const AddDepartment: React.FC = () => {
             dispatchStore(addDept(values));
             console.log("Successfully Category Added to the table");
             console.log("Output values", values);    //printing result 
-            navigate('/departments');
+            navigate('/admin/departments');
             setValues(initialStateDept);
         }
     };

@@ -37,7 +37,7 @@ const AddCategory: React.FC = () => {
             dispatchStore(addCategory(values))
             console.log("Successfully Category Added to the table");
             console.log("Output values", values);    //printing result 
-            navigate('/categories');
+            navigate('/admin/categories');
             setValues(initialStateCategory);
         }
     };

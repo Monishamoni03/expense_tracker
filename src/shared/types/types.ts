@@ -1,8 +1,9 @@
 export const initialStates = {
     email: '',
     password: '',
-    department: '',
-    category: ''
+    role:''
+    // department: '',
+    // category: ''
 }
 
 export const initialStateError = {

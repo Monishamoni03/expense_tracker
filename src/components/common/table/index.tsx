@@ -1,33 +1,66 @@
-import { IconButton, IconButtonProps, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { IconButton, IconButtonProps, Table, TableBody, TableCell, TableHead, TableRow, styled } from "@mui/material";
 import React from "react";
-import { RowProps, Table } from "react-bootstrap";
-import { ColumnProps, MUITableProps } from "../../../shared/types/type";
+import { RowProps, ColumnProps, MUITableProps } from "../../../shared/types/type";
+
+const StyledTable = styled(Table)`
+    width: 90%;
+    margin: 90px 0 0 90px;
+`;
+
+const THead = styled(TableRow)`
+    & > th {
+        font-size: 20px;
+        background: #000000;
+        color: #FFFFFF;
+    }
+`;
+
+const TRow = styled(TableRow)`
+    & > td{
+        font-size: 25px
+    }
+`;
 
 const TableData: React.FC<MUITableProps> = ({ rows, columns }: MUITableProps) => {
     return (
-        <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        {columns && columns.map((column: ColumnProps) => (
-                            <TableCell key={column.title}>{column.title}</TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows && rows.map((row: RowProps) => {
-                        const { actionButtons, ...cells } = row
-                        return (
-                            <TableRow key={row.key}>
-                                {Object.values(cells).map((cell) => (
-                                    <TableCell key={cell}>{cell}</TableCell>
+        
+        <StyledTable>
+            <TableHead>
+                <THead>
+                    {columns && columns.map((column: ColumnProps) => (
+                        <TableCell key={column.title}>{column.title}</TableCell>
+                    ))}
+                </THead>
+            </TableHead>
+            <TableBody>
+                {rows && rows.map((row: RowProps) => {
+                    const { actionButtons, ...cells } = row
+
+                    // console.log("button : ", actionButtons);
+                    // console.log("cell : ", cells);
+                                        
+                    return (
+                        <TRow key={row.key}>
+                            {Object.values(cells).map((cell) => (
+                                <TableCell key={cell}>{cell}</TableCell>
+                            ))}
+                            {actionButtons?.length &&
+                                actionButtons.map((actionButton: IconButtonProps, index) => (
+                                    <TableCell key={index}>
+                                        <IconButton
+                                            aria-label="update"
+                                            onClick={actionButton?.onClick}
+                                        >
+                                            {actionButton?.children}
+                                        </IconButton>
+                                    </TableCell>
                                 ))}
-                            </TableRow>
-                        )
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                        </TRow>
+                    )
+                })}
+            </TableBody>
+        </StyledTable>
+       
     )
 }
 

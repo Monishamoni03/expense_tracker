@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { Dispatch } from "redux";
 import { CategoryInputField, DeptInputField, InputField, UserState } from "../shared/types/type";
 import * as types from "./actionType";
@@ -18,9 +19,24 @@ export const addUserSuccess = (values: InputField): any => ({
     payload: values
 })
 
+export const editUserSuccess = (id): any => ({
+    type: types.EDIT_USER_SUCCESS,
+    payload: id
+})
+
+export const deleteUserSuccess = (id): any => ({
+    type: types.DELETE_USER_SUCCESS,
+    payload: id
+})
+
 export const addDeptSuccess = (values: DeptInputField): any => ({
     type: types.ADD_DEPT_SUCCESS,
     payload: values
+})
+
+export const deleteDeptSuccess = (id): any => ({
+    type: types.DELETE_DEPT_SUCCESS,
+    payload: id
 })
 
 export const allDept = (users: UserState): any => ({
@@ -31,6 +47,11 @@ export const allDept = (users: UserState): any => ({
 export const addCategorySuccess = (values: CategoryInputField): any => ({
     type: types.ADD_CATEGORY_SUCCESS,
     payload: values
+})
+
+export const deleteCategorySuccess = (id): any => ({
+    type: types.DELETE_CATEGORY_SUCCESS,
+    payload: id
 })
 
 export const allCategory = (users: UserState): any => ({
@@ -44,33 +65,28 @@ export const loginData = (values: InputField) => (
     axios.get("http://localhost:5000/user")
         .then((res) => {
             console.log("Login response : ", res.data);
-            let result
+            let result: string
             res.data.map(e => {
-                console.log("e in action",e);   //prints all the user data in db.json 
+                // console.log("e in action",e);   //prints all the user data in db.json 
                 if (e.email === values.email && e.password === values.password) {
-                    dispatch(loginUser(values));
-                    console.log("user exist");
+                    dispatch(loginUser(e));
+                    console.log("user exist", e.email);
+                    toast.success("Successfully Logged In--------")
+                    sessionStorage.setItem('email', e.email)
+                    sessionStorage.setItem('role', e.role)
+                    console.log("item set");
+                    
                     result = "User exist in DB"
                 } else {
+                    console.log("user does not exist");
                     result = "User does not exist in DB"
                 }
             })
-            console.log("Login action result: ",result);    //prints -> user exist in db or not
+            //console.log("Login action result: ",result);    //prints -> user exist in db or not
             console.log("values from dispatch ; ", values)
         })
         .catch((error) => {
             console.log("Error in dispatch: ", error)
-        })
-}
-
-export const getAllUser = () => (
-    dispatch: Dispatch<any>
-) => {
-    axios.get("http://localhost:5000/user")
-        .then((res) => {
-            dispatch(allUser(res.data));
-            console.log("Action all user: ", res.data);
-            
         })
 }
 
@@ -88,6 +104,41 @@ export const addUser = (values: InputField) => (
         })
 }
 
+export const editUser = (id: any) => (
+    dispatch: Dispatch<any>
+) => {
+    axios.put(`http://localhost:5000/user/${id}`, id)
+        .then((res) => {
+            dispatch(editUserSuccess(res.data))
+        })
+        .catch((error) => {
+            console.log("Error in edit user dispatch: ", error)
+        })
+}
+
+export const getAllUser = () => (
+    dispatch: Dispatch<any>
+) => {
+    axios.get("http://localhost:5000/user")
+        .then((res) => {
+            dispatch(allUser(res.data));
+            console.log("Action all user: ", res.data);
+            
+        })
+}
+
+export const deleteUser = (id: any) => (
+    dispatch: Dispatch<any>
+) => {
+    axios.delete(`http://localhost:5000/user/${id}`, id)
+        .then((res) => {
+            dispatch(deleteUserSuccess(res.data))
+        })
+        .catch((error) => {
+            console.log("Error in delete user dispatch: ", error)
+        })
+}
+
 export const addDept = (values: DeptInputField) => (
     dispatch: Dispatch<any>
 ) => {
@@ -99,6 +150,18 @@ export const addDept = (values: DeptInputField) => (
         })
         .catch((error) => {
             console.log("Error in add department dispatch: ", error)
+        })
+}
+
+export const deleteDept = (id: any) => (
+    dispatch: Dispatch<any>
+) => {
+    axios.delete(`http://localhost:5000/departments/${id}`, id)
+        .then((res) => {
+            dispatch(deleteDeptSuccess(res.data))
+        })
+        .catch((error) => {
+            console.log("Error in delete department dispatch: ", error)
         })
 }
 
@@ -124,6 +187,18 @@ export const addCategory = (values: CategoryInputField) => (
         })
         .catch((error) => {
             console.log("Error in add categories dispatch: ", error)
+        })
+}
+
+export const deleteCategory = (id: any) => (
+    dispatch: Dispatch<any>
+) => {
+    axios.delete(`http://localhost:5000/categories/${id}`, id)
+        .then((res) => {
+            dispatch(deleteCategorySuccess(res.data))
+        })
+        .catch((error) => {
+            console.log("Error in delete categories dispatch: ", error)
         })
 }
 

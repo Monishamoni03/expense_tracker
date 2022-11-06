@@ -43,7 +43,7 @@ const AddUser: React.FC = () => {
             dispatchStore(addUser(values));
             console.log("Successfully user added to the table");
             console.log("Output values", values);           //printing result 
-            navigate('/users');
+            navigate('/admin/users');
             setValues(initialStateUser);
         }
     };

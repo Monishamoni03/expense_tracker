@@ -1,29 +1,29 @@
-import React, { Dispatch, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import "../../assets/css/Style";
 import "./Login.css";
 import ValidateLogin from "../../shared/utils/ValidateLogin";
 import { initialStates, initialStateError } from "../../shared/types/types";
 import NavBar from "../common/navbar";
 import Footer from "../common/footer";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginData } from "../../action/action";
-import { InputField, InputFieldError, UserState } from "../../shared/types/type";
+import { InputField, InputFieldError } from "../../shared/types/type";
 import { store } from "../../store/store";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import success from "../../shared/utils/alertMessage";
 
 const Login: React.FC = () => {
 
     const [values, setValues] = useState<InputField>(initialStates);
     const [error, setError] = useState<InputFieldError>(initialStateError);
-    const user = useSelector((state: any) => state.userData.user)
-    console.log("Users USE SELECTOR: ", user);
+    const user = useSelector((state: any) => state.userData.user);
     
-
     const navigate = useNavigate();
+    const alert = () => toast("Successfully logged in");
     // const dispatch = useDispatch();
     const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,16 +32,6 @@ const Login: React.FC = () => {
             [e.target.name]: e.target.value
         })
     }
-
-    axios. 
-    get('http://localhost:5000/user')
-    .then((res) => {
-        console.log("DB resp", res.data);
-    })
-    .catch((error) => {
-        console.log("DB error", error);
-        
-    })
 
     const handleSubmit = async (e: React.MouseEvent) => {
         e.preventDefault();
@@ -54,23 +44,22 @@ const Login: React.FC = () => {
         })
         console.log("hello err: ", error);
         if (isValid) {
-            console.log("Successfully logged in");
-            console.log("Output values", values);   //printing result 
-            // await axios.post('http://localhost:5000/user', values)
-            // .then((res) => {
-            //     console.log("Response values : ", res)
-            // })
-            // .catch((err) => {
-            //     console.log("Error : ", err)
-            // })
-            // navigate('/admin');
+            alert();
+            <ToastContainer />
+            // alert("Successfully logged in");
+            // console.log("Output values", values);   //printing result 
             dispatchStore(loginData(values));
-            // dispatch(loginData(values));
-            navigate('/admin');
             setValues(initialStates);
-
-        }
+        } 
     };
+
+    useEffect(() => {
+        if (sessionStorage.getItem('role') === "Admin") {
+            navigate('/admin');
+        } else if (sessionStorage.getItem('role') === "Accountant" || sessionStorage.getItem('role') === 'Employee'){
+            navigate('/home',{state: {role: sessionStorage.getItem('role')}})
+        }
+    })
 
     return (
         <>

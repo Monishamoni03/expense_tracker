@@ -5,31 +5,69 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NavBar from "../../../common/navbar";
 import Buttons from "../../../common/button/Button";
-import TableData from "../../../common/table/Table";
+import TableData from "../../../common/table";
 import { store } from "../../../../store/store";
-import { getAllCategory } from "../../../../action/action";
+import { deleteCategory, getAllCategory } from "../../../../action/action";
+import { RowProps } from "../../../../shared/types/type";
 
 const AllCategory: React.FC = () => {
-    // const [values, setValues] = useState([]);
     const navigate = useNavigate();
     const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
     const categories = useSelector((state: any) => state.userData.categories[0]);
+    const [success, setSuccess] = useState(false);
 
-    console.log("All Categories data : ", categories);          //prints -> all category data in db.json
+    // console.log("All Categories data : ", categories);          //prints -> all category data in db.json
     
     const columnsCategory: { title: string; key: string}[] = [
-        {"title": "Category Name", "key": "category name"},
         {"title": "Id", "key": "id"},
-        {"title": "Action", "key": "action"}
+        {"title": "Category Name", "key": "category name"},
+        {"title": "Action", "key": "action"},
+        { "title": "Action", "key": "action" }
     ]; 
 
     useEffect(() => {
         dispatchStore(getAllCategory());
-    }, []);
+    }, [success]);
+
+    const rowCategory: RowProps[] = [] as RowProps[];
+
+    const handleEdit = (id: number) => {
+        console.log("Handle edit");
+        
+    }
+
+    const handleDelete = (id: number) => {
+        if (window.confirm('Are you sure you want to delete this Category?')) {
+            dispatchStore(deleteCategory(id));
+            setSuccess(true);
+        }
+    }
+
+    useEffect(() => {
+        if (success) {
+            alert("Category deleted successfully!")
+        }
+    }, [success])
+
+    categories?.forEach((value: any) => {
+        const object: RowProps = {
+            key: value.id,
+            categoryName: value.categoryName,
+            actionButtons: [{
+                children: "Update",
+                onClick: () => handleEdit(value.id)
+            },
+            {
+                children: "Delete",
+                onClick: () => handleDelete(value.id)
+            }]
+        }
+        rowCategory.push(object)
+    })
 
     return (
         <>
-            <NavBar />
+            {/* <NavBar /> */}
             <div className="admin-page">
                 <h1 style={{ textAlign: "center" }}>Available Categories</h1>
                 <Buttons 
@@ -45,10 +83,7 @@ const AllCategory: React.FC = () => {
             </div>
 
             <br /><br />
-            <TableData columns = {columnsCategory}  
-            rows = {categories
-                // {actionButtons}
-             }             />
+            <TableData columns = {columnsCategory}  rows = {rowCategory} />
 
         </>
     )
