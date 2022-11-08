@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import EditIcon from '@mui/icons-material/Edit';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import CategoryIcon from '@mui/icons-material/Category';
 import { FaBars } from "react-icons/fa";
@@ -11,9 +12,14 @@ const Menu: React.FC = () => {
     const toggle = () => setIsOpen(!isOpen);
     const menuItem = [
         {
-            path: '/admin/users',
+            path: '/admin',
             name: "Available Users",
-            icon: <GroupAddOutlinedIcon />
+            icon: <PeopleOutlineIcon />
+        },
+        {
+            path: '/admin/users',
+            name: "Edit Users",
+            icon: <EditIcon />
         },
         {
             path: '/admin/departments',
@@ -29,11 +35,11 @@ const Menu: React.FC = () => {
 
     return (
         <div className="menu-container">
-            <div style={{ width: isOpen ? "450px" : "50px" }} className="sidebar">
+            <div style={{ width: "450px" }} className="sidebar">
             <div className="top-section">
-                <h1 className="site-title" style={{ display: isOpen ? "block" : "none" }}>MENU</h1>
+                <h1 className="site-title" style={{ display:"block"}}>Welcome Admin</h1>
                     <div style={{ marginLeft: isOpen ? "5px" : "-10px", textDecoration: "none" }} className="bars">
-                        <FaBars onClick={toggle} />
+                      {/* <FaBars onClick={toggle} /> */}
                     </div>
                 </div>
                 {
@@ -42,7 +48,7 @@ const Menu: React.FC = () => {
                             <div className="menu-icon">
                                 {item.icon}
                             </div>
-                            <div style={{ display: isOpen ? "block" : "none" }} className="menu-panel-link">
+                            <div style={{ display: "block" }} className="menu-panel-link">
                                 {item.name}
                             </div>
                         </NavLink>

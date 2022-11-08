@@ -45,16 +45,16 @@ interface InitialLoginAction {
 
 interface UserState {
     users?: InputField[];
-    user: InputField;
-    addUserSuccess: InputField;
-    editUserSuccess: InputField;
-    deleteUserSuccess: InputField;
-    addDeptSuccess: InputField;
-    deleteDeptSuccess: InputField;
-    depts: InputField[];
-    addCategorySuccess: InputField;
-    deleteCategorySuccess: InputField;
-    categories: InputField[]
+    user?: InputField;
+    addUserSuccess?: InputField;
+    editUserSuccess?: InputField;
+    deleteUserSuccess?: InputField;
+    addDeptSuccess?: InputField;
+    deleteDeptSuccess?: InputField;
+    depts?: InputField[];
+    addCategorySuccess?: InputField;
+    deleteCategorySuccess?: InputField;
+    categories?: InputField[]
 }
 
 export type UserActionsTypes = InitialLoginAction

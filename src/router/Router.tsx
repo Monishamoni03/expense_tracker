@@ -1,17 +1,14 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import AccountantOrEmployee from "../components/accountantOremployee";
-import Admin from "../components/admin";
-import AddCategory from "../components/admin/categories/AddCategory";
-import AddDepartment from "../components/admin/department/AddDept";
-import AllCategory from "../components/config/categories/listCategories/AllCategory";
-import AllDepartment from "../components/config/department/listDept.tsx/AllDepartment";
-import AddUser from "../components/config/users/AddUser";
-import AllUser from "../components/config/users/AllUser";
+import Admin from "../components/config/users/listUsers";
+import AllCategory from "../components/config/categories/listCategories/Category";
+import AllDepartment from "../components/config/department/listDept.tsx/Department";
+import AllUser from "../components/config/users/User";
 import Home from "../components/common/Home";
-import Login from "../components/login/Login";
+import Login from "../components/login";
 import ValidateSession from "../shared/utils/ValidateSession";
-import Menu from "../components/common/menu/Menu";
+import Menu from "../components/common/menu";
 
 const Router: React.FC = () => {
 
@@ -31,6 +28,7 @@ const Router: React.FC = () => {
     return (
         <div className="App">
             <Routes>
+                {/* common routes */}
                 <Route path = "/" element={<Home />} />
                 <Route path = "/login" element={<Login />} />
                 
@@ -42,9 +40,6 @@ const Router: React.FC = () => {
                     <Route path = "categories" element={<AllCategory />} />
                 </Route>
 
-                <Route path="/adduser" element={<AddUser />} />
-                <Route path="/adddepartment" element={<AddDepartment />} />
-                <Route path="/addcategory" element={<AddCategory />} />
                 <Route path='/home' element={<AccountantOrEmployee />} />                 {/* employee / accountant */}
             </Routes>
         </div>

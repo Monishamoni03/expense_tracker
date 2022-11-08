@@ -71,7 +71,7 @@ export const loginData = (values: InputField) => (
                 if (e.email === values.email && e.password === values.password) {
                     dispatch(loginUser(e));
                     console.log("user exist", e.email);
-                    toast.success("Successfully Logged In--------")
+                    // toast.success("Successfully Logged In--------")
                     sessionStorage.setItem('email', e.email)
                     sessionStorage.setItem('role', e.role)
                     console.log("item set");
@@ -104,7 +104,7 @@ export const addUser = (values: InputField) => (
         })
 }
 
-export const editUser = (id: any) => (
+export const editUser = (id: any, values: InputField) => (
     dispatch: Dispatch<any>
 ) => {
     axios.put(`http://localhost:5000/user/${id}`, id)

@@ -1,6 +1,6 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import "../../assets/css/Style";
-import "./Login.css";
+import "./index.css";
 import ValidateLogin from "../../shared/utils/ValidateLogin";
 import { initialStates, initialStateError } from "../../shared/types/types";
 import NavBar from "../common/navbar";
@@ -12,9 +12,8 @@ import { store } from "../../store/store";
 import { useSelector } from "react-redux";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
-import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import success from "../../shared/utils/alertMessage";
+import successMessage from "../../shared/utils/alertMessage";
 
 const Login: React.FC = () => {
 
@@ -23,9 +22,8 @@ const Login: React.FC = () => {
     const user = useSelector((state: any) => state.userData.user);
     
     const navigate = useNavigate();
-    const alert = () => toast("Successfully logged in");
-    // const dispatch = useDispatch();
     const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValues({
             ...values,
@@ -42,11 +40,9 @@ const Login: React.FC = () => {
             ...error,
             [e.target.name]: error
         })
-        console.log("hello err: ", error);
+        console.log("Login error: ", error);
         if (isValid) {
-            alert();
-            <ToastContainer />
-            // alert("Successfully logged in");
+            successMessage("Successfully logged in");
             // console.log("Output values", values);   //printing result 
             dispatchStore(loginData(values));
             setValues(initialStates);

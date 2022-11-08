@@ -13,16 +13,16 @@ import { useSelector } from "react-redux";
 import { store } from "../../../store/store";
 import { addUser } from "../../../action/action";
 
-const AddUser: React.FC = () => {
+const AddUser = () => {
 
     const [values, setValues] = useState<InputFieldUser>(initialStateUser);
     const [error, setError] = useState<InputFieldError>(initialStateError);
 
     // const user = useSelector((state: any) => state.userData.user)
-   
+
     const navigate = useNavigate();
     const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
-    
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setValues({
             ...values,

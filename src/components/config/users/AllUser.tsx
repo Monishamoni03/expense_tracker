@@ -9,6 +9,17 @@ import { useSelector } from "react-redux";
 import { deleteUser, editUser, getAllUser } from "../../../action/action";
 import { store } from "../../../store/store";
 import { RowProps } from "../../../shared/types/type";
+import { initialStateUser, initialStateError } from "../../../shared/types/types";
+import { InputFieldError, InputFieldUser } from "../../../shared/types/type";
+import ValidateLogin from "../../../shared/utils/ValidateLogin";
+import { addUser } from "../../../action/action";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import PersonIcon from "@mui/icons-material/Person";
+import LockIcon from "@mui/icons-material/Lock";
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import "../../../assets/css/Style";
+import "../../login/Login.css";
 
 const AllUser: React.FC = () => {
     const navigate = useNavigate();
@@ -17,6 +28,12 @@ const AllUser: React.FC = () => {
     const [success, setSuccess] = useState(false)
 
     // console.log("All user data : ", users);   //prints -> all user data in db.json 
+
+    // const [show, setShow] = useState(false);
+    // const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
+    const [values, setValues] = useState<InputFieldUser>(initialStateUser);
+    const [error, setError] = useState<InputFieldError>(initialStateError);
 
     const columnsUser: { title: string; key: string }[] = [
         { "title": "Id", "key": "id" },
@@ -39,7 +56,7 @@ const AllUser: React.FC = () => {
 
     const handleEdit = (id: number, value: any) => {
         console.log("Handle edit");
-        // dispatchStore(editUser(id, value))
+        dispatchStore(editUser(id, value))
 
     }
 
@@ -48,6 +65,125 @@ const AllUser: React.FC = () => {
             dispatchStore(deleteUser(id));
             setSuccess(true)
         }
+    }
+
+    // const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    //     setValues((values) => ({ ...values, [e.target.name]: e.target.value }));
+    //     // setValues(
+    //     //     {         
+    //     //     ...values,
+    //     //     [e.target.name]: e.target.value
+    //     // }
+    //     // )
+    // }
+
+    // const handleSubmit = (e: React.MouseEvent) => {
+    //     e.preventDefault();
+    //     // handleClose();
+    //     const isValid = ValidateLogin(values);
+    //     console.log("Is valid", isValid);
+    //     setError({
+    //         ...error,
+    //         [e.target.name]: error
+    //     })
+    //     console.log("hello err: ", error);
+    //     if (isValid) {
+    //         dispatchStore(addUser(values));
+    //         console.log("Successfully user added to the table");
+    //         console.log("Output values", values);           //printing result 
+    //         navigate('/admin/users');
+    //         setValues(initialStateUser);
+    //     }
+    // };
+
+    const HandleAdd = () => {
+        console.log("hi");
+        const [show, setShow] = useState(false);
+        const handleClose = () => setShow(false);
+        const handleShow = () => setShow(true);
+
+        const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+            setValues((values) => ({ ...values, [e.target.name]: e.target.value }));
+            // setValues(
+            //     {         
+            //     ...values,
+            //     [e.target.name]: e.target.value
+            // }
+            // )
+        }
+    
+        const handleSubmit = (e: React.MouseEvent) => {
+            e.preventDefault();
+            // handleClose();
+            const isValid = ValidateLogin(values);
+            console.log("Is valid", isValid);
+            setError({
+                ...error,
+                [e.target.name]: error
+            })
+            console.log("hello err: ", error);
+            if (isValid) {
+                dispatchStore(addUser(values));
+                console.log("Successfully user added to the table");
+                console.log("Output values", values);           //printing result 
+                navigate('/admin/users');
+                setValues(initialStateUser);
+            }
+        };
+
+
+        return (
+            <>
+                <Buttons
+                    move="right"
+                    onClick={handleShow}
+                    text="Add User"
+                />
+                <Modal show={show} onHide={handleClose} onCancel={() => setShow(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Add User</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form className="login">
+                            <div className='login-form'>
+                                <label htmlFor="email"><PersonIcon />{"   "}Email <sup>*</sup></label>
+                                <input onChange={(e) => handleChange(e)} name='email' value={values.email} placeholder="name@example.com" required />
+                                <div style={{ color: "red" }}>{error.emailError}</div>
+                            </div>
+                            <div className='login-form'>
+                                <label htmlFor="password"><LockIcon />{"   "}Password <sup>*</sup></label>
+                                <input onChange={(e) => handleChange(e)} type='password' name='password' value={values.password} placeholder="Password@123" required />
+                                <div style={{ color: "red" }}>{error.passwordError}</div>
+                            </div>
+                            <div className='login-form'>
+                                <label htmlFor="role"><SupervisorAccountIcon />Role</label>
+                                <select name="role" onChange={(e) => handleChange(e)}>
+                                    <option>Please choose an option</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Accountant">Accountant</option>
+                                    <option value="Employee">Employee</option>
+                                </select>
+                            </div>
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className='submit'>
+                            <button className="login-button" onClick={handleSubmit}>Submit</button>
+                        </div>
+                    </Modal.Footer>
+
+                    {/* <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                        </Button>
+                    </Modal.Footer> */}
+                </Modal>
+            </>
+        )
     }
 
     useEffect(() => {
@@ -83,11 +219,17 @@ const AllUser: React.FC = () => {
                     onClick={() => navigate('/admin')}
                     text="Go Back"
                 />
-                <Buttons
+                {/* <Buttons
                     move="right"
                     onClick={() => navigate('/adduser')}
                     text="Add User"
-                />
+                /> */}
+                {/* <Buttons
+                    move="right"
+                    onClick={handleShow}
+                    text="Add User"
+                /> */}
+                <HandleAdd />
             </div>
 
             <br /><br />

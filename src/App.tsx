@@ -1,12 +1,18 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Router from "./router/Router";
 
 const App: React.FC = () => {
     return (
-        <BrowserRouter>
-            <Router />
-        </BrowserRouter>
+        <>
+            <BrowserRouter>
+                <Router />
+            </BrowserRouter>
+            <ToastContainer/>
+        </>
+
+
     )
 }
 

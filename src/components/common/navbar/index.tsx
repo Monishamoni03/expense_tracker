@@ -4,7 +4,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import "./index.css";
-import Menu from "../menu/Menu";
+import Menu from "../menu";
 
 const NavBar: React.FC = () => {
   const [activeTab, setActiveTab] = useState("");

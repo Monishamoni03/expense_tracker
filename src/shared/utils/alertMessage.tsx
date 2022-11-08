@@ -1,14 +1,14 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function success(isValid: any) {
+export default function successMessage(isValid: any) {
   toast.success(isValid, {
     position: toast.POSITION.TOP_CENTER,
-    autoClose: 500,
+    autoClose: 1000,
   });
 }
 
-// export function failure(errorMessage) {
+// export default function failure(errorMessage) {
 //   toast.error(errorMessage, {
 //     position: toast.POSITION.TOP_CENTER,
 //     autoClose: 500,
