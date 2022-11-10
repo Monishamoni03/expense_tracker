@@ -1,25 +1,27 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import AccountantOrEmployee from "../components/accountantOremployee";
-import Admin from "../components/config/users/listUsers";
-import AllCategory from "../components/config/categories/listCategories/Category";
-import AllDepartment from "../components/config/department/listDept.tsx/Department";
-import AllUser from "../components/config/users/User";
-import Home from "../components/common/Home";
 import Login from "../components/login";
 import ValidateSession from "../shared/utils/ValidateSession";
 import Menu from "../components/common/menu";
+import AllUser from "../components/admin/users";
+import AllDepartment from "../components/admin/department";
+import AllCategory from "../components/admin/categories";
+import Admin from "../components/admin/home";
+import Home from "../components/common/home";
 
 const Router: React.FC = () => {
 
-    ValidateSession();          //route protection
+    //route protection
+    ValidateSession();          
 
     let url = window.location.href;
     const navigate = useNavigate();
 
     useEffect(() => {
         if (sessionStorage.getItem('role') === 'Accountant' || sessionStorage.getItem('role') === 'Employee') {
-            navigate(-1)        //reloads to same - previous page
+            //reloads to same - previous page
+            navigate(-1)        
         } else if (sessionStorage.getItem('role') === 'Admin' && url.indexOf('/admin')) {
             navigate('/admin')
         }
@@ -40,7 +42,8 @@ const Router: React.FC = () => {
                     <Route path = "categories" element={<AllCategory />} />
                 </Route>
 
-                <Route path='/home' element={<AccountantOrEmployee />} />                 {/* employee / accountant */}
+                {/* employee / accountant */}
+                <Route path='/home' element={<AccountantOrEmployee />} />                 
             </Routes>
         </div>
     )

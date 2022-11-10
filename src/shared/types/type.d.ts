@@ -17,9 +17,12 @@ interface InputFieldError {
 }
 
 interface InputFieldUser {
-    email: string,
-    password: string,
-    role: string
+    id?: any;
+    email?: string,
+    password?: string,
+    role?: string,
+    deptName?: string,
+    categoryName?: string
 }
 
 interface DeptInputField {
@@ -39,26 +42,27 @@ interface CategoryInputFieldError {
 
 interface InitialLoginAction {
     type: string,
-    payload: InputField
+    payload: InputFieldUser[]
 }
 
+interface InitialLoginSingleAction {
+    type: string,
+    payload: InputFieldUser
+}
 
 interface UserState {
-    users?: InputField[];
-    user?: InputField;
-    addUserSuccess?: InputField;
-    editUserSuccess?: InputField;
-    deleteUserSuccess?: InputField;
-    addDeptSuccess?: InputField;
-    deleteDeptSuccess?: InputField;
-    depts?: InputField[];
-    addCategorySuccess?: InputField;
-    deleteCategorySuccess?: InputField;
-    categories?: InputField[]
+    users?: Array<InputFieldUser>;
+    user?: InputFieldUser;
+    depts?: Array<InputFieldUser>;
+    dept?: InputFieldUser;
+    categories?: Array<InputFieldUser>;
+    category?: InputFieldUser;
 }
 
-export type UserActionsTypes = InitialLoginAction
-// type DispatchType = (args: InitialAction) => InitialAction
+
+export type UserActionsTypes = InitialLoginAction & InitialLoginSingleAction
+
+// For Table Component
 
 interface ColumnProps {
     title: string,
@@ -73,18 +77,11 @@ interface RowProps {
     deptName?: string,
     categoryName?: string,
     id?: string,
-    actionButtons?: IconButtonProps[]
+    actionButtons?: IconButtonProps[],
+    selector?: any
 }
 
 interface MUITableProps extends TableProps {
     rows?: RowProps[],
     columns: ColumnProps[]
 }
-
-// interface InitialState {
-//     fields: InputField[]
-// }
-
-// export interface loginPayload {
-//     message: string
-// }

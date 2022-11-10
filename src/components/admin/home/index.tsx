@@ -2,16 +2,16 @@
 
 import React, { Dispatch, useEffect, useState } from "react";
 import "./index.css";
-import NavBar from "../../../common/navbar";
+import NavBar from "../../common/navbar";
 import { useSelector } from "react-redux";
-import { getAllUser } from "../../../../action/action";
-import { store } from "../../../../store/store";
-import TableData from "../../../common/table";
-import { RowProps } from "../../../../shared/types/type";
+import { getAllUser } from "../../../action/action";
+import { store } from "../../../store";
+import TableData from "../../common/table";
+import { RowProps } from "../../../shared/types/type";
 
 const Admin: React.FC = () => {
 
-  const users = useSelector((state: any) => state.userData.users[0]);
+  const users = useSelector((state: any) => state.userData.users);
   const [success, setSuccess] = useState(false);
   const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
 

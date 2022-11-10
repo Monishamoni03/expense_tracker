@@ -4,15 +4,9 @@ import { initialStateError } from "../types/types";
 
 const ValidateLogin: React.FC <InputField> = (values): any => {
     console.log("Entered login validation");
-    // const values = (initialState);
     const error = (initialStateError);
-    // const error = {
-    //     emailError: '',
-    //     passwordError: ''
-    // }
-    console.log("initial State : ", error);
+    console.log("initial State login validation: ", error);
     
-
     if (values.email === "") {
         error.emailError = "Please enter your email";
     } else if (!regex.EMAIL_REGEX.test(values.email)) {

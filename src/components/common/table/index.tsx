@@ -23,7 +23,7 @@ const TRow = styled(TableRow)`
 
 const TableData: React.FC<MUITableProps> = ({ rows, columns }: MUITableProps) => {
     return (
-        
+
         <StyledTable>
             <TableHead>
                 <THead>
@@ -34,11 +34,11 @@ const TableData: React.FC<MUITableProps> = ({ rows, columns }: MUITableProps) =>
             </TableHead>
             <TableBody>
                 {rows && rows.map((row: RowProps) => {
-                    const { actionButtons, ...cells } = row
+                    const { actionButtons, selector, ...cells } = row
 
                     // console.log("button : ", actionButtons);
                     // console.log("cell : ", cells);
-                                        
+
                     return (
                         <TRow key={row.key}>
                             {Object.values(cells).map((cell) => (
@@ -50,17 +50,19 @@ const TableData: React.FC<MUITableProps> = ({ rows, columns }: MUITableProps) =>
                                         <IconButton
                                             aria-label="update"
                                             onClick={actionButton?.onClick}
+                                            onSelect ={actionButton?.onSelect}
                                         >
                                             {actionButton?.children}
                                         </IconButton>
                                     </TableCell>
-                                ))}
+                                ))
+                            }
                         </TRow>
                     )
                 })}
             </TableBody>
         </StyledTable>
-       
+
     )
 }
 

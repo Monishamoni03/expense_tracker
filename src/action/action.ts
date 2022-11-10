@@ -14,14 +14,19 @@ export const allUser = (users: UserState): any => ({
     payload: users
 })
 
+export const singleUser = (id): any => ({
+    type: types.SINGLE_USER,
+    payload: id
+})
+
 export const addUserSuccess = (values: InputField): any => ({
     type: types.ADD_USER_SUCCESS,
     payload: values
 })
 
-export const editUserSuccess = (id): any => ({
+export const editUserSuccess = (values: InputField): any => ({
     type: types.EDIT_USER_SUCCESS,
-    payload: id
+    payload: values
 })
 
 export const deleteUserSuccess = (id): any => ({
@@ -65,25 +70,20 @@ export const loginData = (values: InputField) => (
     axios.get("http://localhost:5000/user")
         .then((res) => {
             console.log("Login response : ", res.data);
-            let result: string
             res.data.map(e => {
                 // console.log("e in action",e);   //prints all the user data in db.json 
                 if (e.email === values.email && e.password === values.password) {
                     dispatch(loginUser(e));
-                    console.log("user exist", e.email);
+                    console.log("User exist in DB", e.email);
                     // toast.success("Successfully Logged In--------")
                     sessionStorage.setItem('email', e.email)
                     sessionStorage.setItem('role', e.role)
-                    console.log("item set");
-                    
-                    result = "User exist in DB"
+                    console.log("Item set");
                 } else {
-                    console.log("user does not exist");
-                    result = "User does not exist in DB"
+                    console.log("User does not exist in DB");
                 }
             })
-            //console.log("Login action result: ",result);    //prints -> user exist in db or not
-            console.log("values from dispatch ; ", values)
+            console.log("Values from dispatch ; ", values)
         })
         .catch((error) => {
             console.log("Error in dispatch: ", error)
@@ -96,8 +96,7 @@ export const addUser = (values: InputField) => (
     axios.post("http://localhost:5000/user", values)
         .then((res) => {
             dispatch(addUserSuccess(res.data));
-            console.log("Action add user: ", res.data);
-            
+            console.log("Action add user: ", res.data);           
         })
         .catch((error) => {
             console.log("Error in add user dispatch: ", error)
@@ -107,12 +106,16 @@ export const addUser = (values: InputField) => (
 export const editUser = (id: any, values: InputField) => (
     dispatch: Dispatch<any>
 ) => {
-    axios.put(`http://localhost:5000/user/${id}`, id)
+    console.log("ENTERING EDITTTTTTTTTTTTT")
+    console.log("Edit user id : ", id)
+    axios.put(`http://localhost:5000/user/${id}`, values)
         .then((res) => {
             dispatch(editUserSuccess(res.data))
+            console.log("Response from edit user", res.data);
+            
         })
         .catch((error) => {
-            console.log("Error in edit user dispatch: ", error)
+            console.log("Error in edit user dispatch: ", error.response.data.error);
         })
 }
 
@@ -127,9 +130,22 @@ export const getAllUser = () => (
         })
 }
 
+export const getSingleUser = (id: any) => (
+    dispatch: Dispatch<any>
+) => {
+    axios.get(`http://localhost:5000/user/${id}`, id)
+        .then((res) => {
+            dispatch(singleUser(res.data));
+            console.log("Action single user: ", res.data);
+            
+        })
+}
+
 export const deleteUser = (id: any) => (
     dispatch: Dispatch<any>
 ) => {
+    console.log("DELTER ID : ", id);
+    
     axios.delete(`http://localhost:5000/user/${id}`, id)
         .then((res) => {
             dispatch(deleteUserSuccess(res.data))

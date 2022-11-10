@@ -2,23 +2,23 @@ import * as types from "../action/actionType";
 import { UserActionsTypes, UserState } from "../shared/types/type";
 
 const initialState: UserState = {
-    users: [],
+    users: [{}],
     user: {
-        email: "",
-        password: ""
+        email: '',
+        password: ''
     },
-    addUserSuccess: {
-        email: "",
-        password: "",
-    },
-    editUserSuccess: {
-        email: "",
-        password: ""
-    },
-    deleteUserSuccess: {
-        email: "",
-        password: "",
-    },
+    // addUserSuccess: {
+    //     email: "",
+    //     password: "",
+    // },
+    // editUserSuccess: {
+    //     email: "",
+    //     password: ""
+    // },
+    // deleteUserSuccess: {
+    //     email: "",
+    //     password: "",
+    // },
 }
 
 const userReducer = (state: UserState = initialState, action: UserActionsTypes): UserState => {
@@ -31,22 +31,27 @@ const userReducer = (state: UserState = initialState, action: UserActionsTypes):
         case types.GET_ALL_USER:
             return {
                 ...state,
-                users: [action.payload]
+                users: action.payload
+            }
+        case types.SINGLE_USER:
+            return {
+                ...state,
+                user: action.payload
             }
         case types.ADD_USER_SUCCESS:
             return {
                 ...state,
-                addUserSuccess: action.payload
+                user: action.payload
             }
         case types.EDIT_USER_SUCCESS:
             return {
                 ...state,
-                editUserSuccess: action.payload
+                user: action.payload
             }
         case types.DELETE_USER_SUCCESS:
             return {
                 ...state,
-                deleteUserSuccess: action.payload
+                user: action.payload
             }
         default:
             return state;

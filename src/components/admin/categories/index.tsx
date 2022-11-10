@@ -1,43 +1,44 @@
-//ADMIN ---> Available Department with add btn in the top, edit, delete
+//ADMIN ---> Available Categories with add btn in the top, edit, delete
 
 import React, { Dispatch, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Buttons from "../../../common/button/Button";
-import { store } from "../../../../store/store";
-import TableData from "../../../common/table";
-import { deleteDept, getAllDept } from "../../../../action/action";
-import { RowProps } from "../../../../shared/types/type";
-import "../../../../assets/css/Style";
-import "../../../login/index.css";
-import { initialStateDept, initialStateDeptError } from "../../../../shared/types/types";
-import { DeptInputFieldError, DeptInputField } from "../../../../shared/types/type";
-import ValidateDept from "../../../../shared/utils/ValidateDept";
-import { addDept } from "../../../../action/action";
+import NavBar from "../../common/navbar";
+import Buttons from "../../common/button";
+import TableData from "../../common/table";
+import { store } from "../../../store";
+import { initialStateCategory, initialStateCategoryError } from "../../../shared/types/types";
+import { CategoryInputFieldError, CategoryInputField } from "../../../shared/types/type";
+import ValidateCategory from "../../../shared/utils/ValidateCategory";
+import { addCategory } from "../../../action/action";
+import { deleteCategory, getAllCategory } from "../../../action/action";
+import { RowProps } from "../../../shared/types/type";
+import "../../../assets/css/Style";
+import "../../login/index.css";
 import { Button, Modal } from "react-bootstrap";
-import NavBar from "../../../common/navbar";
+import { columnCategory } from "../../config/category";
 
-const AllDepartment: React.FC = () => {
+const AllCategory: React.FC = () => {
     const navigate = useNavigate();
     const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
-    const departments = useSelector((state: any) => state.departmentData.depts[0]);
+    const categories = useSelector((state: any) => state.categoryData.categories);
     const [success, setSuccess] = useState(false);
 
-    let [values, setValues] = useState<DeptInputField>(initialStateDept);
-    const [error, setError] = useState<DeptInputFieldError>(initialStateDeptError);
+    let [values, setValues] = useState<CategoryInputField>(initialStateCategory);
+    const [error, setError] = useState<CategoryInputFieldError>(initialStateCategoryError);
 
-    const columnsDept: { title: string; key: string }[] = [
-        { "title": "Id", "key": "id" },
-        { "title": "Department Name", "key": "department name" },
-        { "title": "Action", "key": "action" },
-        { "title": "Action", "key": "action" }
-    ];
+    // const columnsCategory: { title: string; key: string }[] = [
+    //     { "title": "Id", "key": "id" },
+    //     { "title": "Category Name", "key": "category name" },
+    //     { "title": "Action", "key": "action" },
+    //     { "title": "Action", "key": "action" }
+    // ];
 
     useEffect(() => {
-        dispatchStore(getAllDept());
+        dispatchStore(getAllCategory());
     }, [success]);
 
-    const rowDept: RowProps[] = [] as RowProps[];
+    const rowCategory: RowProps[] = [] as RowProps[];
 
     const handleEdit = (id: number) => {
         console.log("Handle edit");
@@ -45,15 +46,15 @@ const AllDepartment: React.FC = () => {
     }
 
     const handleDelete = (id: number) => {
-        if (window.confirm('Are you sure you want to delete this Department?')) {
-            dispatchStore(deleteDept(id));
+        if (window.confirm('Are you sure you want to delete this Category?')) {
+            dispatchStore(deleteCategory(id));
             setSuccess(true);
         }
     }
 
     const handleSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
-        const isValid = ValidateDept(values);
+        const isValid = ValidateCategory(values);
         console.log("Is valid", isValid);
         setError({
             ...error,
@@ -61,18 +62,18 @@ const AllDepartment: React.FC = () => {
         })
         console.log("hello err: ", error);
         if (isValid) {
-            dispatchStore(addDept(values));
-            dispatchStore(getAllDept());
-            console.log("Successfully Department Added to the table");
+            dispatchStore(addCategory(values));
+            dispatchStore(getAllCategory());
+            console.log("Successfully Category Added to the table");
             console.log("Output values", values);    //printing result 
-            navigate('/admin/departments');
-            setValues(initialStateDept);
+            navigate('/admin/categories');
+            setValues(initialStateCategory);
         }
     };
 
-    const DepartmentForm = (): any => {
-        [values, setValues] = useState<DeptInputField>(initialStateDept);
-        const [error, setError] = useState<DeptInputFieldError>(initialStateDeptError);
+    const CategoryForm = (): any => {
+        [values, setValues] = useState<CategoryInputField>(initialStateCategory);
+        const [error, setError] = useState<CategoryInputFieldError>(initialStateCategoryError);
 
         const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
             setValues({
@@ -84,12 +85,12 @@ const AllDepartment: React.FC = () => {
         return (
             <form className="login">
                 <div className='login-form'>
-                    <label htmlFor="deptName">Department Name <sup>*</sup></label>
-                    <input onChange={(e) => handleChange(e)} name='deptName' value={values.deptName} placeholder="Enter the department name" required />
-                    <div style={{ color: "red" }}>{error.deptNameError}</div>
+                    <label htmlFor="categoryName">Category Name <sup>*</sup></label>
+                    <input onChange={(e) => handleChange(e)} name='categoryName' value={values.categoryName} placeholder="Enter the category name" required />
+                    <div style={{ color: "red" }}>{error.categoryNameError}</div>
                 </div>
                 <div className='submit'>
-                    <button className="login-button" onClick={handleSubmit}>Submit</button>
+                    <button className="login-button" onClick={handleSubmit} disabled={values === undefined ? true : false}>Submit</button>
                 </div>
             </form>
         )
@@ -112,14 +113,14 @@ const AllDepartment: React.FC = () => {
                 <Buttons
                     move="right"
                     onClick={handleShow}
-                    text="Add Department"
+                    text="Add Category"
                 />
                 <Modal show={show} onHide={handleClose} onCancel={() => setShow(false)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Add Department</Modal.Title>
+                        <Modal.Title>Add Category</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <DepartmentForm />
+                        <CategoryForm />
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
@@ -133,14 +134,14 @@ const AllDepartment: React.FC = () => {
 
     useEffect(() => {
         if (success) {
-            alert("Department deleted successfully!")
+            alert("Category deleted successfully!")
         }
     }, [success])
 
-    departments?.forEach((value: any) => {
+    categories?.forEach((value: any) => {
         const object: RowProps = {
             key: value.id,
-            deptName: value.deptName,
+            categoryName: value.categoryName,
             actionButtons: [{
                 children: "Update",
                 onClick: () => handleEdit(value.id)
@@ -150,14 +151,14 @@ const AllDepartment: React.FC = () => {
                 onClick: () => handleDelete(value.id)
             }]
         }
-        rowDept.push(object)
+        rowCategory.push(object)
     })
 
     return (
         <>
             <NavBar />
             <div className="admin-page">
-                <h1 style={{ textAlign: "center" }}>Available Departments</h1>
+                <h1 style={{ textAlign: "center" }}>Available Categories</h1>
                 <Buttons
                     move="left"
                     onClick={() => navigate('/admin')}
@@ -167,9 +168,10 @@ const AllDepartment: React.FC = () => {
             </div>
 
             <br /><br />
-            <TableData columns={columnsDept} rows={rowDept} />
+            <TableData columns={columnCategory} rows={rowCategory} />
+
         </>
     )
 }
 
-export default AllDepartment;
+export default AllCategory;

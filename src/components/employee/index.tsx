@@ -1,20 +1,15 @@
+//expense
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Buttons from "../common/button/Button";
+import Buttons from "../common/button";
 import NavBar from "../common/navbar";
 import TableData from "../common/table";
+import { columnExpense } from "../config/employee";
 
 const Expense: React.FC = () => {
 
     const navigate = useNavigate();
-
-    const columnsExpense: { title: string; key: string}[] = [
-        {"title": "Categoy", "key": "category"},
-        {"title": "Department", "key": "department"},
-        {"title": "Amount", "key": "amount"},
-        {"title": "Approved By", "key": "approved by"},
-        {"title": "Action", "key": "action"}
-    ]; 
 
     return (
         <div>
@@ -27,7 +22,7 @@ const Expense: React.FC = () => {
             />
 
             <br /><br />
-            <TableData columns = {columnsExpense} />
+            <TableData columns = {columnExpense} />
             
         </div>
     )

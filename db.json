@@ -1,7 +1,7 @@
 {
   "user": [
     {
-      "email": "monishamoni7327@gmail.com",
+      "email": "monishamoni73@gmail.com",
       "password": "Monisha@123",
       "role": "Admin",
       "id": 1
@@ -39,7 +39,7 @@
     {
       "email": "saravana21@gmail.com",
       "password": "Saravana@123",
-      "role": "Accountant",
+      "role": "Employee",
       "id": 8
     },
     {
@@ -61,8 +61,8 @@
       "id": 11
     },
     {
-      "email": "kalpana@gmail.com",
-      "password": "Kalpana@123",
+      "email": "nivesana29@gmail.com",
+      "password": "Nive@123",
       "role": "Accountant",
       "id": 12
     },
@@ -75,8 +75,14 @@
     {
       "email": "krithika27@gmail.com",
       "password": "Krithika@123",
-      "role": "Employee",
+      "role": "Accountant",
       "id": 14
+    },
+    {
+      "email": "rannith27@gmail.com",
+      "password": "Rannith@123",
+      "role": "Admin",
+      "id": 15
     }
   ],
   "roles": [

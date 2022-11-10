@@ -2,13 +2,10 @@ import * as types from "../action/actionType";
 import { UserActionsTypes, UserState } from "../shared/types/type";
 
 const initialState: UserState = {
-    addDeptSuccess: {
-        deptName: ""
-    },
-    deleteDeptSuccess: {
-        deptName: ""
-    },
-    depts: [],
+    depts: [{}],
+    dept: {
+        deptName: '',
+    }
 }
 
 const departmentReducer = (state: UserState = initialState, action: UserActionsTypes): UserState => {
@@ -16,17 +13,17 @@ const departmentReducer = (state: UserState = initialState, action: UserActionsT
         case types.ADD_DEPT_SUCCESS:
             return {
                 ...state,
-                addDeptSuccess: action.payload
+                dept: action.payload
             }
         case types.DELETE_DEPT_SUCCESS:
             return {
                 ...state,
-                deleteDeptSuccess: action.payload
+                dept: action.payload
             }
         case types.GET_ALL_DEPT:
             return {
                 ...state,
-                depts: [action.payload]
+                depts: action.payload
 
             }
         default:

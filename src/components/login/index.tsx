@@ -8,7 +8,7 @@ import Footer from "../common/footer";
 import { useNavigate } from "react-router-dom";
 import { loginData } from "../../action/action";
 import { InputField, InputFieldError } from "../../shared/types/type";
-import { store } from "../../store/store";
+import { store } from "../../store";
 import { useSelector } from "react-redux";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";

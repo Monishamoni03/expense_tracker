@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Router from "./router/Router";
+import Router from "./router";
 
 const App: React.FC = () => {
     return (
@@ -11,8 +11,6 @@ const App: React.FC = () => {
             </BrowserRouter>
             <ToastContainer/>
         </>
-
-
     )
 }
 

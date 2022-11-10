@@ -2,13 +2,10 @@ import * as types from "../action/actionType";
 import { UserActionsTypes, UserState } from "../shared/types/type";
 
 const initialState: UserState = {
-    addCategorySuccess: {
-        categoryName: ""
-    },
-    deleteCategorySuccess: {
-        categoryName: ""
-    },
-    categories: []
+    categories: [{}],
+    category: {
+        categoryName: ''
+    }
 }
 
 const categoryReducer = (state: UserState = initialState, action: UserActionsTypes): UserState => {
@@ -16,17 +13,17 @@ const categoryReducer = (state: UserState = initialState, action: UserActionsTyp
         case types.ADD_CATEGORY_SUCCESS:
             return {
                 ...state,
-                addCategorySuccess: action.payload
+                category: action.payload
             }
         case types.DELETE_CATEGORY_SUCCESS:
             return {
                 ...state,
-                deleteCategorySuccess: action.payload
+                category: action.payload
             }
         case types.GET_ALL_CATEGORY:
             return {
                 ...state,
-                categories: [action.payload]
+                categories: action.payload
 
             }
         default:

@@ -1,3 +1,5 @@
+/* Login form */
+
 .wrapper {
   height: 61.9vh;
   width: 100%;
@@ -40,7 +42,7 @@
 /* Home Page */
 .home-container {
   background: url('https://www.indusind.com/iblogs/wp-content/uploads/personal-loan-3.jpg') center center/cover no-repeat;
-  height: 100vh;
+  height: 61.5vh;
   width: 100%;
   display: flex;
   flex-direction: column;
