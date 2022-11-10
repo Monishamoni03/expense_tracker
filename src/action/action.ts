@@ -106,7 +106,7 @@ export const addUser = (values: InputField) => (
 export const editUser = (id: any, values: InputField) => (
     dispatch: Dispatch<any>
 ) => {
-    console.log("ENTERING EDITTTTTTTTTTTTT")
+    console.log("ENTERING EDIT")
     console.log("Edit user id : ", id)
     axios.put(`http://localhost:5000/user/${id}`, values)
         .then((res) => {

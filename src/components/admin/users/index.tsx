@@ -145,8 +145,8 @@ const AllUser: React.FC = () => {
     }
 
     const editHandler = (id, value) => {
-        console.log("iddddddddddd", id);
-        console.log("valueeeeeeeee", value);
+        console.log("id", id);
+        console.log("value", value);
         //retrieving old values
         setValues(value);
         userModalShow();
