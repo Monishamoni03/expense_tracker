@@ -1,7 +1,7 @@
 {
   "user": [
     {
-      "email": "monishamoni73@gmail.com",
+      "email": "monishamoni7327@gmail.com",
       "password": "Monisha@123",
       "role": "Admin",
       "id": 1
@@ -83,6 +83,12 @@
       "password": "Rannith@123",
       "role": "Admin",
       "id": 15
+    },
+    {
+      "email": "athulai11@gmail.com",
+      "password": "Athulai@123",
+      "role": "Employee",
+      "id": 16
     }
   ],
   "roles": [
@@ -135,6 +141,10 @@
     {
       "deptName": "Network",
       "id": 1008
+    },
+    {
+      "deptName": "Finance",
+      "id": 1009
     }
   ],
   "categories": [

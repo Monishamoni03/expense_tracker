@@ -28,16 +28,6 @@ const userReducer = (state: UserState = initialState, action: UserActionsTypes):
                 ...state,
                 user: action.payload
             }
-        case types.GET_ALL_USER:
-            return {
-                ...state,
-                users: action.payload
-            }
-        case types.SINGLE_USER:
-            return {
-                ...state,
-                user: action.payload
-            }
         case types.ADD_USER_SUCCESS:
             return {
                 ...state,
@@ -52,6 +42,16 @@ const userReducer = (state: UserState = initialState, action: UserActionsTypes):
             return {
                 ...state,
                 user: action.payload
+            }
+        case types.SINGLE_USER:
+            return {
+                ...state,
+                user: action.payload
+            }
+        case types.GET_ALL_USER:
+            return {
+                ...state,
+                users: action.payload
             }
         default:
             return state;

@@ -17,7 +17,7 @@ interface InputFieldError {
 }
 
 interface InputFieldUser {
-    id?: any;
+    id?: number;
     email?: string,
     password?: string,
     role?: string,
@@ -26,6 +26,7 @@ interface InputFieldUser {
 }
 
 interface DeptInputField {
+    id?: number,
     deptName: string
 }
 
@@ -34,6 +35,7 @@ interface DeptInputFieldError {
 }
 
 interface CategoryInputField {
+    id?: number,
     categoryName: string
 }
 interface CategoryInputFieldError {

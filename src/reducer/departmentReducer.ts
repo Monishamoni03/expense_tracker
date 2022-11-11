@@ -15,6 +15,11 @@ const departmentReducer = (state: UserState = initialState, action: UserActionsT
                 ...state,
                 dept: action.payload
             }
+        case types.EDIT_DEPT_SUCCESS:
+            return {
+                ...state,
+                dept: action.payload
+            }
         case types.DELETE_DEPT_SUCCESS:
             return {
                 ...state,

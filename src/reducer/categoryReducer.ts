@@ -15,6 +15,11 @@ const categoryReducer = (state: UserState = initialState, action: UserActionsTyp
                 ...state,
                 category: action.payload
             }
+        case types.EDIT_CATEGORY_SUCCESS:
+            return {
+                ...state,
+                category: action.payload
+            }
         case types.DELETE_CATEGORY_SUCCESS:
             return {
                 ...state,

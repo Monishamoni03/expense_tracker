@@ -6,19 +6,21 @@ import { useSelector } from "react-redux";
 import Buttons from "../../common/button";
 import { store } from "../../../store";
 import TableData from "../../common/table";
-import { deleteDept, getAllDept } from "../../../action/action";
+import { deleteDept, editDepartment, getAllDept } from "../../../action/action";
 import { RowProps } from "../../../shared/types/type";
 import "../../../assets/css/Style";
 import "../../login/index.css"
 import { initialStateDept, initialStateDeptError } from "../../../shared/types/types";
 import { DeptInputFieldError, DeptInputField } from "../../../shared/types/type";
 import ValidateDept from "../../../shared/utils/ValidateDepartment";
-import { addDept } from "../../../action/action";
 import { Button, Modal } from "react-bootstrap";
 import NavBar from "../../common/navbar";
 import { columnDept } from "../../config/department";
+import successMessage from "../../../shared/utils/alertMessage";
+import AddModalDepartment from "./modal";
 
 const AllDepartment: React.FC = () => {
+
     const navigate = useNavigate();
     const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
     const departments = useSelector((state: any) => state.departmentData.depts);
@@ -27,33 +29,30 @@ const AllDepartment: React.FC = () => {
     let [values, setValues] = useState<DeptInputField>(initialStateDept);
     const [error, setError] = useState<DeptInputFieldError>(initialStateDeptError);
 
-    // const columnsDept: { title: string; key: string }[] = [
-    //     { "title": "Id", "key": "id" },
-    //     { "title": "Department Name", "key": "department name" },
-    //     { "title": "Action", "key": "action" },
-    //     { "title": "Action", "key": "action" }
-    // ];
+    const [show, setShow] = useState(false);
+    const departmentModalClose = () => setShow(false);
+    const departmentModalShow = () => setShow(true);
+
+    const rowDept: RowProps[] = [] as RowProps[];
 
     useEffect(() => {
         dispatchStore(getAllDept());
     }, [success]);
 
-    const rowDept: RowProps[] = [] as RowProps[];
-
-    const departmentEdit = (id: number) => {
-        console.log("Handle edit");
-
-    }
-
-    const departmentDelete = (id: number) => {
+    const departmentDelete = async (id: number) => {
         if (window.confirm('Are you sure you want to delete this Department?')) {
-            dispatchStore(deleteDept(id));
+            await dispatchStore(deleteDept(id));
             setSuccess(true);
+            successMessage("Department deleted successfully")
         }
     }
 
-    const departmentSubmit = (e: React.MouseEvent) => {
+    const departmentEditSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
+        departmentModalClose();
+
+        console.log("value in onsubmit", values);
+
         const isValid = ValidateDept(values);
         console.log("Is valid", isValid);
         setError({
@@ -62,17 +61,15 @@ const AllDepartment: React.FC = () => {
         })
         console.log("hello err: ", error);
         if (isValid) {
-            dispatchStore(addDept(values));
-            dispatchStore(getAllDept());
-            console.log("Successfully Department Added to the table");
-            console.log("Output values", values);    //printing result 
-            navigate('/admin/departments');
-            setValues(initialStateDept);
+            dispatchStore(editDepartment(values.id, values));
+            setSuccess(true);
+            successMessage("Successfully department name updated to the table");
+            console.log("Output values", values);       //printing result
         }
     };
 
     const DepartmentForm = (): any => {
-        [values, setValues] = useState<DeptInputField>(initialStateDept);
+        [values, setValues] = useState<DeptInputField>(values);
         const [error, setError] = useState<DeptInputFieldError>(initialStateDeptError);
 
         const onDepartment = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -89,40 +86,27 @@ const AllDepartment: React.FC = () => {
                     <input onChange={(e) => onDepartment(e)} name='deptName' value={values.deptName} placeholder="Enter the department name" required />
                     <div style={{ color: "red" }}>{error.deptNameError}</div>
                 </div>
-                <div className='submit'>
-                    <button className="login-button" onClick={departmentSubmit}>Submit</button>
-                </div>
             </form>
         )
     }
 
-    const DepartmentAddModal = () => {
-        console.log("hi add");
-        const [show, setShow] = useState(false);
-
-        const departmentModalClose = () => setShow(false);
-        const departmentModalShow = () => setShow(true);
-
-        const onLoginSubmit = (e: React.MouseEvent) => {
-            e.preventDefault();
-            departmentModalClose();
-        };
+    const DepartmentEdit = () => {
+        console.log("----------Hi department edit----------");
+        console.log("Value in edit fn", values);
 
         return (
             <>
-                <Buttons
-                    move="right"
-                    onClick={departmentModalShow}
-                    text="Add Department"
-                />
                 <Modal show={show} onHide={departmentModalClose} onCancel={() => setShow(false)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Add Department</Modal.Title>
+                        <Modal.Title>Edit User</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <DepartmentForm />
                     </Modal.Body>
                     <Modal.Footer>
+                        <Button variant="primary" onClick={departmentEditSubmit}>
+                            Update
+                        </Button>
                         <Button variant="secondary" onClick={departmentModalClose}>
                             Close
                         </Button>
@@ -132,11 +116,13 @@ const AllDepartment: React.FC = () => {
         )
     }
 
-    useEffect(() => {
-        if (success) {
-            alert("Department deleted successfully!")
-        }
-    }, [success])
+    const departmentEdit = (id, value) => {
+        console.log("id", id);
+        console.log("value", value);
+        //retrieving old values
+        setValues(value);
+        departmentModalShow();
+    }
 
     departments?.forEach((value: any) => {
         const object: RowProps = {
@@ -144,7 +130,7 @@ const AllDepartment: React.FC = () => {
             deptName: value.deptName,
             actionButtons: [{
                 children: "Update",
-                onClick: () => departmentEdit(value.id)
+                onClick: () => departmentEdit(value.id, value)
             },
             {
                 children: "Delete",
@@ -158,13 +144,14 @@ const AllDepartment: React.FC = () => {
         <>
             <NavBar />
             <div className="admin-page">
-                <h1 style={{ textAlign: "center" }}>Available Departments</h1>
+                <h1 style={{ textAlign: "center" }}>Departments</h1>
                 <Buttons
                     move="left"
                     onClick={() => navigate('/admin')}
                     text="Go Back"
                 />
-                <DepartmentAddModal />
+                <AddModalDepartment />
+                <DepartmentEdit />
             </div>
 
             <br /><br />

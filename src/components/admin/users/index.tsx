@@ -21,7 +21,7 @@ import successMessage from "../../../shared/utils/alertMessage";
 import "../../../assets/css/Style";
 import "../../login/index.css";
 import NavBar from "../../common/navbar";
-import AddModalData from "../../common/modal";
+import AddModalData from "../../admin/users/modal/index";
 import { columnUser } from "../../config/users";
 
 const AllUser: React.FC = () => {
@@ -34,30 +34,28 @@ const AllUser: React.FC = () => {
     let [values, setValues] = useState<InputFieldUser>(initialStateUser);
     const [error, setError] = useState<InputFieldError>(initialStateError);
 
-    const { id } = useParams();
-
-    useEffect(() => {
-        dispatchStore(getAllUser());
-    }, [success]);
-
     const [show, setShow] = useState(false);
     const userModalClose = () => setShow(false);
     const userModalShow = () => setShow(true);
 
     const rowUser: RowProps[] = [] as RowProps[];
 
-    const {editUserSuccess} = useSelector((state: any) => state.userData.user)
+    useEffect(() => {
+        dispatchStore(getAllUser());
+    }, [success]);
 
     const userDelete = async (id: number) => {
         if (window.confirm("Are you sure you want to delete the user?")) {
             await dispatchStore(deleteUser(id));
             setSuccess(true);
-            successMessage("User deleted successfully")
+            successMessage("User deleted successfully");
         }
     }
 
     const userEditSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
+        userModalClose();
+
         console.log("value in onsubmit", values);
 
         const isValid = ValidateLogin(values);
@@ -69,14 +67,9 @@ const AllUser: React.FC = () => {
         console.log("hello err: ", error);
         if (isValid) {
             dispatchStore(editUser(values.id, values));
-            if (editUserSuccess) {
-                successMessage("Successfully user updated to the table");
-            }
-            // setValues(values);
-            // dispatchStore(getAllUser());
-            console.log("Output values", values);           //printing result 
-            // navigate('/admin/users');
-           // successMessage("Successfully user updated to the table");
+            setSuccess(true);
+            successMessage("Successfully user updated to the table");
+            console.log("Output values", values);       //printing result
         }
     };
 
@@ -144,7 +137,7 @@ const AllUser: React.FC = () => {
         )
     }
 
-    const editHandler = (id, value) => {
+    const userEdit = (id, value) => {
         console.log("id", id);
         console.log("value", value);
         //retrieving old values
@@ -160,8 +153,7 @@ const AllUser: React.FC = () => {
             actionButtons: [{
                 children: 'Update',
                 // onClick: () => userEdit(value.id, value),
-                onClick: () => editHandler(value.id, value)
-                // onClick: () => userEdit(value.id, value)
+                onClick: () => userEdit(value.id, value)
             },
             {
                 children: "Delete",

@@ -39,6 +39,11 @@ export const addDeptSuccess = (values: DeptInputField): any => ({
     payload: values
 })
 
+export const editDeptSuccess = (values: InputField): any => ({
+    type: types.EDIT_DEPT_SUCCESS,
+    payload: values
+})
+
 export const deleteDeptSuccess = (id): any => ({
     type: types.DELETE_DEPT_SUCCESS,
     payload: id
@@ -51,6 +56,11 @@ export const allDept = (users: UserState): any => ({
 
 export const addCategorySuccess = (values: CategoryInputField): any => ({
     type: types.ADD_CATEGORY_SUCCESS,
+    payload: values
+})
+
+export const editCategorySuccess = (values: InputField): any => ({
+    type: types.EDIT_CATEGORY_SUCCESS,
     payload: values
 })
 
@@ -169,6 +179,22 @@ export const addDept = (values: DeptInputField) => (
         })
 }
 
+export const editDepartment = (id: any, values: InputField) => (
+    dispatch: Dispatch<any>
+) => {
+    console.log("ENTERING EDIT")
+    console.log("Edit department id : ", id)
+    axios.put(`http://localhost:5000/departments/${id}`, values)
+        .then((res) => {
+            dispatch(editDeptSuccess(res.data))
+            console.log("Response from edit department", res.data);
+            
+        })
+        .catch((error) => {
+            console.log("Error in edit department dispatch: ", error.response.data.error);
+        })
+}
+
 export const deleteDept = (id: any) => (
     dispatch: Dispatch<any>
 ) => {
@@ -203,6 +229,21 @@ export const addCategory = (values: CategoryInputField) => (
         })
         .catch((error) => {
             console.log("Error in add categories dispatch: ", error)
+        })
+}
+
+export const editCategory = (id: any, values: InputField) => (
+    dispatch: Dispatch<any>
+) => {
+    console.log("Edit category id : ", id)
+    axios.put(`http://localhost:5000/categories/${id}`, values)
+        .then((res) => {
+            dispatch(editCategorySuccess(res.data))
+            console.log("Response from edit category", res.data);
+            
+        })
+        .catch((error) => {
+            console.log("Error in edit department dispatch: ", error.response.data.error);
         })
 }
 
