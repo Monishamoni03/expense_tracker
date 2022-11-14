@@ -1,7 +1,7 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import "../../assets/css/Style";
 import "./index.css";
-import ValidateLogin from "../../shared/utils/ValidateLogin";
+import ValidateLogin from "../../shared/utils/ValidateUser";
 import { initialStates, initialStateError } from "../../shared/types/types";
 import NavBar from "../common/navbar";
 import Footer from "../common/footer";

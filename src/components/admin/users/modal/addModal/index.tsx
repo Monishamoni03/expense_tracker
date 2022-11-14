@@ -3,13 +3,13 @@
 import React, { Dispatch, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { addUser, getAllUser } from '../../../../action/action';
-import { InputFieldError, InputFieldUser } from '../../../../shared/types/type';
-import { initialStateError, initialStateUser } from '../../../../shared/types/types';
-import successMessage from '../../../../shared/utils/alertMessage';
-import ValidateLogin from '../../../../shared/utils/ValidateLogin';
-import { store } from '../../../../store';
-import Buttons from '../../../common/button/index';
+import { addUser, getAllUser } from '../../../../../action/action';
+import { InputFieldError, InputFieldUser } from '../../../../../shared/types/type';
+import { initialStateError, initialStateUser } from '../../../../../shared/types/types';
+import successMessage from '../../../../../shared/utils/alertMessage';
+import ValidateUser from '../../../../../shared/utils/ValidateUser';
+import { store } from '../../../../../store';
+import Buttons from '../../../../common/button/index';
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
@@ -23,18 +23,17 @@ const AddModalData = () => {
 
   const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
 
-  const userModalClose = () => setShow(false);
-  const userModalShow = () => setShow(true);
+  const UserModalClose = () => setShow(false);
+  const UserModalShow = () => setShow(true);
 
   useEffect(() => {
     dispatchStore(getAllUser());
-}, [success]);
+  }, [success]);
 
-  const userModalSubmit = async (e: React.MouseEvent) => {
+  const UserModalSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    userModalClose();
 
-    const isValid = ValidateLogin(values);
+    const isValid = ValidateUser(values);
     console.log("Is valid", isValid);
     setError({
       ...error,
@@ -42,10 +41,10 @@ const AddModalData = () => {
     })
     console.log("hello err: ", error);
     if (isValid) {
-      await dispatchStore(addUser(values));
+      dispatchStore(addUser(values));
       setSuccess(true);
-      console.log("Output values", values);       //printing result 
       successMessage("Successfully user added to the table");
+      UserModalClose();
       setValues(initialStateUser);
     }
   };
@@ -92,11 +91,11 @@ const AddModalData = () => {
     <>
       <Buttons
         move="right"
-        onClick={userModalShow}
+        onClick={UserModalShow}
         text="Add User"
       />
 
-      <Modal show={show} onHide={userModalClose} onCancel={() => setShow(false)}>
+      <Modal show={show} onHide={UserModalClose} onCancel={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Add User</Modal.Title>
         </Modal.Header>
@@ -104,10 +103,10 @@ const AddModalData = () => {
           <UserForm />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={userModalSubmit}>
+          <Button variant="primary" onClick={UserModalSubmit}>
             Submit
           </Button>
-          <Button variant="secondary" onClick={userModalClose}>
+          <Button variant="secondary" onClick={UserModalClose}>
             Close
           </Button>
         </Modal.Footer>

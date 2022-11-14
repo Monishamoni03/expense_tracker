@@ -2,7 +2,7 @@ import * as regex from "../constants/regex";
 import { InputField } from "../types/type";
 import { initialStateError } from "../types/types";
 
-const ValidateLogin: React.FC <InputField> = (values): any => {
+const ValidateUser: React.FC <InputField> = (values): any => {
     console.log("Entered login validation");
     const error = (initialStateError);
     console.log("initial State login validation: ", error);
@@ -28,4 +28,4 @@ const ValidateLogin: React.FC <InputField> = (values): any => {
     return true;
 }
 
-export default ValidateLogin;
+export default ValidateUser;

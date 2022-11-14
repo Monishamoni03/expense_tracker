@@ -1,57 +1,36 @@
-//ADMIN ---> USERS with add btn in the top, edit, delete
-
 import React, { Dispatch, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Buttons from "../../common/button";
-import TableData from "../../common/table";
 import { useSelector } from "react-redux";
-import { deleteUser, editUser, getAllUser } from "../../../action/action";
-import { store } from "../../../store";
-import { RowProps } from "../../../shared/types/type";
-import { initialStateUser, initialStateError } from "../../../shared/types/types";
-import { InputFieldError, InputFieldUser } from "../../../shared/types/type";
-import ValidateUser from "../../../shared/utils/ValidateUser";
+import { editUser, getAllUser } from "../../../../../action/action";
+import { store } from "../../../../../store";
+import { initialStateUser, initialStateError } from "../../../../../shared/types/types";
+import { InputFieldError, InputFieldUser } from "../../../../../shared/types/type";
+import ValidateUser from "../../../../../shared/utils/ValidateUser";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import 'react-toastify/dist/ReactToastify.css';
-import successMessage from "../../../shared/utils/alertMessage";
-import "../../../assets/css/Style";
-import "../../login/index.css";
-import NavBar from "../../common/navbar";
-import AddModalData from "../../admin/users/modal/addModal/index";
-import { columnUser } from "../../config/users";
-import EditModalData from "./modal/editModal";
+import successMessage from "../../../../../shared/utils/alertMessage";
+import "../../../../../assets/css/Style";
+import "../../../../login/index.css";
 
-const AllUser: React.FC = () => {
-    
-    const navigate = useNavigate();
-    const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
-    const users = useSelector((state: any) => state.userData.users);    
-    const [success, setSuccess] = useState(false);
+const EditModalData = (): any => {
 
     let [values, setValues] = useState<InputFieldUser>(initialStateUser);
     const [error, setError] = useState<InputFieldError>(initialStateError);
+    const [success, setSuccess] = useState(false);
 
     const [show, setShow] = useState(false);
     const UserModalClose = () => setShow(false);
     const UserModalShow = () => setShow(true);
 
-    const rowUser: RowProps[] = [] as RowProps[];
+    const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
 
     useEffect(() => {
         dispatchStore(getAllUser());
     }, [success]);
-
-    const userDelete = async (id: number) => {
-        if (window.confirm("Are you sure you want to delete the user?")) {
-            await dispatchStore(deleteUser(id));
-            setSuccess(true);
-            successMessage("User deleted successfully");
-        }
-    }
 
     const UserEditSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -74,7 +53,7 @@ const AllUser: React.FC = () => {
         }
     };
 
-    const UserForm = (): any => {
+    const LoginForm = (): any => {
         [values, setValues] = useState<InputFieldUser>(values);
         const [error, setError] = useState<InputFieldError>(initialStateError);
 
@@ -113,7 +92,7 @@ const AllUser: React.FC = () => {
     }
 
     const UserEdit = () => {
-        console.log("----User Edit----");
+        console.log("----Hello edit----");
         console.log("Value in edit fn", values);
 
         return (
@@ -123,7 +102,7 @@ const AllUser: React.FC = () => {
                         <Modal.Title>Edit User</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <UserForm />
+                        <LoginForm />
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="primary" onClick={UserEditSubmit}>
@@ -138,50 +117,10 @@ const AllUser: React.FC = () => {
         )
     }
 
-    const userEdit = (id, value) => {
-        console.log("id", id);
-        console.log("value", value);
-        //retrieving old values
-        setValues(value);
-        UserModalShow();
-    }
+    return(
+        UserEdit()
+    ) 
 
-    users?.forEach((value: any) => {
-        const object: RowProps = {
-            key: value.id,
-            email: value.email,
-            role: value.role,
-            actionButtons: [{
-                children: 'Update',
-                onClick: () => userEdit(value.id, value)
-            },
-            {
-                children: "Delete",
-                onClick: () => userDelete(value.id)
-            }]
-        }
-        rowUser.push(object)
-    })
-
-    return (
-        <>
-            <NavBar />
-            <div className="admin-page">
-                <h1 style={{ textAlign: "center" }}>Users</h1>
-                <Buttons
-                    move="left"
-                    onClick={() => navigate('/admin')}
-                    text="Go Back"
-                />
-                <AddModalData />
-                {/* <EditModalData /> */}
-                <UserEdit />
-            </div>
-
-            <br /><br />
-            <TableData columns={columnUser} rows={rowUser} />
-        </>
-    )
 }
 
-export default AllUser;
+export default EditModalData;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Dispatch } from "redux";
 import { CategoryInputField, DeptInputField, InputField, UserState } from "../shared/types/type";
@@ -113,6 +114,26 @@ export const addUser = (values: InputField) => (
         })
 }
 
+// export const addUser = (values: InputField) => (
+//     dispatch: Dispatch<any>
+// ) => {   
+//     // const users = useSelector((state: any) => state.userData.users);    
+//     // const user = axios.get(`http://localhost:5000/user?email=${users.email}`)
+
+//     // if (user) {
+//     //     console.log("already exists----------");       
+//     // } else {
+//     axios.post("http://localhost:5000/user", values)
+//         .then((res) => {
+//             console.log("Add user response : ", res.data);
+//             dispatch(addUserSuccess(res.data))
+//         })
+//         .catch((error) => {
+//             console.log("Error in add user dispatch: ", error)
+//         })
+//     // }
+// }
+
 export const editUser = (id: any, values: InputField) => (
     dispatch: Dispatch<any>
 ) => {
@@ -122,7 +143,7 @@ export const editUser = (id: any, values: InputField) => (
         .then((res) => {
             dispatch(editUserSuccess(res.data))
             console.log("Response from edit user", res.data);
-            
+
         })
         .catch((error) => {
             console.log("Error in edit user dispatch: ", error.response.data.error);
@@ -136,7 +157,7 @@ export const getAllUser = () => (
         .then((res) => {
             dispatch(allUser(res.data));
             console.log("Action all user: ", res.data);
-            
+
         })
 }
 
@@ -147,7 +168,7 @@ export const getSingleUser = (id: any) => (
         .then((res) => {
             dispatch(singleUser(res.data));
             console.log("Action single user: ", res.data);
-            
+
         })
 }
 
@@ -155,7 +176,7 @@ export const deleteUser = (id: any) => (
     dispatch: Dispatch<any>
 ) => {
     console.log("DELTER ID : ", id);
-    
+
     axios.delete(`http://localhost:5000/user/${id}`, id)
         .then((res) => {
             dispatch(deleteUserSuccess(res.data))
@@ -172,7 +193,7 @@ export const addDept = (values: DeptInputField) => (
         .then((res) => {
             dispatch(addDeptSuccess(res.data));
             console.log("Action add department: ", res.data);
-            
+
         })
         .catch((error) => {
             console.log("Error in add department dispatch: ", error)
@@ -188,7 +209,7 @@ export const editDepartment = (id: any, values: InputField) => (
         .then((res) => {
             dispatch(editDeptSuccess(res.data))
             console.log("Response from edit department", res.data);
-            
+
         })
         .catch((error) => {
             console.log("Error in edit department dispatch: ", error.response.data.error);
@@ -214,7 +235,7 @@ export const getAllDept = () => (
         .then((res) => {
             dispatch(allDept(res.data));
             console.log("Action all dept: ", res.data);
-            
+
         })
 }
 
@@ -225,7 +246,7 @@ export const addCategory = (values: CategoryInputField) => (
         .then((res) => {
             dispatch(addCategorySuccess(res.data));
             console.log("Action add categories: ", res.data);
-            
+
         })
         .catch((error) => {
             console.log("Error in add categories dispatch: ", error)
@@ -240,7 +261,7 @@ export const editCategory = (id: any, values: InputField) => (
         .then((res) => {
             dispatch(editCategorySuccess(res.data))
             console.log("Response from edit category", res.data);
-            
+
         })
         .catch((error) => {
             console.log("Error in edit department dispatch: ", error.response.data.error);
@@ -266,6 +287,6 @@ export const getAllCategory = () => (
         .then((res) => {
             dispatch(allCategory(res.data));
             console.log("Action all categories: ", res.data);
-            
+
         })
 }
