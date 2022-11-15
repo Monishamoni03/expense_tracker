@@ -31,8 +31,12 @@ const AllCategory: React.FC = () => {
     const [error, setError] = useState<CategoryInputFieldError>(initialStateCategoryError);
 
     const [show, setShow] = useState(false);
-    const categoryModalClose = () => setShow(false);
-    const categoryModalShow = () => setShow(true);
+    const CategoryModalClose = () => setShow(false);
+    const CategoryModalShow = () => setShow(true);
+
+    const [deleteShow, setDeleteShow] = useState(false);
+    const CategoryDeleteModalClose = () => setDeleteShow(false);
+    const CategoryDeleteModalShow = () => setDeleteShow(true);
 
     const rowCategory: RowProps[] = [] as RowProps[];
 
@@ -40,17 +44,53 @@ const AllCategory: React.FC = () => {
         dispatchStore(getAllCategory());
     }, [success]);
 
-    const categoryDelete = async (id: number) => {
-        if (window.confirm('Are you sure you want to delete this Category?')) {
-            await dispatchStore(deleteCategory(id));
-            setSuccess(true);
-            successMessage("Category deleted successfully")
-        }
+    // const categoryDelete = async (id: number) => {
+    //     if (window.confirm('Are you sure you want to delete this Category?')) {
+    //         await dispatchStore(deleteCategory(id));
+    //         setSuccess(true);
+    //         successMessage("Category deleted successfully")
+    //     }
+    // }
+
+    const CategoryDeleteSubmit = (e: React.MouseEvent) => {
+        e.preventDefault();
+        dispatchStore(deleteCategory(values.id));
+        setSuccess(true);
+        CategoryDeleteModalClose();
+        successMessage("Category deleted successfully");
     }
 
-    const categoryEditSubmit = (e: React.MouseEvent) => {
+    const CategoryDelete = () => {
+        console.log("----Category delete----");
+
+        return (
+            <>
+                <Modal show={deleteShow} onHide={CategoryDeleteModalClose} onCancel={() => setDeleteShow(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Delete Category</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Are you sure you want to delete this Category?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={CategoryDeleteSubmit}>
+                            Ok
+                        </Button>
+                        <Button variant="secondary" onClick={CategoryDeleteModalClose}>
+                            Cancel
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </>
+        )
+    }
+
+    const categoryDelete = (id: number) => {
+        CategoryDeleteModalShow();
+    }
+
+    const CategoryEditSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
-        categoryModalClose();
 
         console.log("value in onsubmit", values);
 
@@ -65,6 +105,7 @@ const AllCategory: React.FC = () => {
             dispatchStore(editCategory(values.id, values));
             setSuccess(true);
             successMessage("Successfully category name updated to the table");
+            CategoryModalClose();
             console.log("Output values", values);       //printing result
         }
     };
@@ -73,7 +114,7 @@ const AllCategory: React.FC = () => {
         [values, setValues] = useState<CategoryInputField>(values);
         const [error, setError] = useState<CategoryInputFieldError>(initialStateCategoryError);
 
-        const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const onCategory = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
             setValues({
                 ...values,
                 [e.target.name]: e.target.value
@@ -84,7 +125,7 @@ const AllCategory: React.FC = () => {
             <form className="login">
                 <div className='login-form'>
                     <label htmlFor="categoryName">Category Name <sup>*</sup></label>
-                    <input onChange={(e) => handleChange(e)} name='categoryName' value={values.categoryName} placeholder="Enter the category name" required />
+                    <input onChange={(e) => onCategory(e)} name='categoryName' value={values.categoryName} placeholder="Enter the category name" required />
                     <div style={{ color: "red" }}>{error.categoryNameError}</div>
                 </div>
             </form>
@@ -92,12 +133,12 @@ const AllCategory: React.FC = () => {
     }
 
     const CategoryEdit = () => {
-        console.log("----------Hi category edit----------");
+        console.log("----Hi category edit-----");
         console.log("Value in edit fn", values);
 
         return (
             <>
-                <Modal show={show} onHide={categoryModalClose} onCancel={() => setShow(false)}>
+                <Modal show={show} onHide={CategoryModalClose} onCancel={() => setShow(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>Edit Category</Modal.Title>
                     </Modal.Header>
@@ -105,10 +146,10 @@ const AllCategory: React.FC = () => {
                         <CategoryForm />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={categoryEditSubmit}>
+                        <Button variant="primary" onClick={CategoryEditSubmit}>
                             Update
                         </Button>
-                        <Button variant="secondary" onClick={categoryModalClose}>
+                        <Button variant="secondary" onClick={CategoryModalClose}>
                             Close
                         </Button>
                     </Modal.Footer>
@@ -122,7 +163,7 @@ const AllCategory: React.FC = () => {
         console.log("value", value);
         //retrieving old values
         setValues(value);
-        categoryModalShow();
+        CategoryModalShow();
     }
 
     categories?.forEach((value: any) => {
@@ -153,6 +194,7 @@ const AllCategory: React.FC = () => {
                 />
                 <AddModalCategory />
                 <CategoryEdit />
+                <CategoryDelete />
             </div>
 
             <br /><br />

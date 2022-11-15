@@ -12,8 +12,10 @@ interface InputField {
 }
 
 interface InputFieldError {
-    emailError: string, 
-    passwordError: string
+    email?: string,
+    password?: string,
+    emailError?: string, 
+    passwordError?: string
 }
 
 interface InputFieldUser {

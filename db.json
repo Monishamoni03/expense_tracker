@@ -71,24 +71,6 @@
       "password": "Bari@123",
       "role": "Employee",
       "id": 13
-    },
-    {
-      "email": "krithika27@gmail.com",
-      "password": "Krithika@123",
-      "role": "Accountant",
-      "id": 14
-    },
-    {
-      "email": "rannith27@gmail.com",
-      "password": "Rannith@123",
-      "role": "Admin",
-      "id": 15
-    },
-    {
-      "email": "athulai11@gmail.com",
-      "password": "Athulai@123",
-      "role": "Employee",
-      "id": 16
     }
   ],
   "roles": [

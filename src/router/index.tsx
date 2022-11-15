@@ -4,7 +4,7 @@ import AccountantOrEmployee from "../components/accountantOremployee";
 import Login from "../components/login";
 import ValidateSession from "../shared/utils/ValidateSession";
 import Menu from "../components/common/menu";
-import AllUser from "../components/admin/users";
+import AllUser from "../components/admin/users/user";
 import AllDepartment from "../components/admin/department";
 import AllCategory from "../components/admin/categories";
 import Admin from "../components/admin/home";

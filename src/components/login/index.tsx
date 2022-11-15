@@ -1,7 +1,7 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import "../../assets/css/Style";
 import "./index.css";
-import ValidateLogin from "../../shared/utils/ValidateUser";
+import ValidateUser from "../../shared/utils/ValidateUser";
 import { initialStates, initialStateError } from "../../shared/types/types";
 import NavBar from "../common/navbar";
 import Footer from "../common/footer";
@@ -14,48 +14,48 @@ import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import 'react-toastify/dist/ReactToastify.css';
 import successMessage from "../../shared/utils/alertMessage";
+import ValidateFields from "../../shared/utils/ValidateFields";
 
 const Login: React.FC = () => {
 
     const [values, setValues] = useState<InputField>(initialStates);
     const [error, setError] = useState<InputFieldError>(initialStateError);
+
     const user = useSelector((state: any) => state.userData.user);
-    
+
     const navigate = useNavigate();
     const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const errorMsg = ValidateFields(e.target.name, e.target.value);
         setValues({
             ...values,
             [e.target.name]: e.target.value
         })
-    }
-
-    const handleSubmit = async (e: React.MouseEvent) => {
-        e.preventDefault();
-        const isValid = ValidateLogin(values);
-        console.log("Is valid", isValid);
-        
         setError({
             ...error,
-            [e.target.name]: error
+            [e.target.name]: errorMsg
         })
-        console.log("Login error: ", error);
-        if (isValid) {
+
+        console.log("Login error: ", error)
+    }
+
+    const handleOnSubmit = (e: React.MouseEvent) => {
+        e.preventDefault();
+
+        dispatchStore(loginData(values));
+        if ((!error.email) && (!error.password)) {
             successMessage("Successfully logged in");
-            // console.log("Output values", values);   //printing result 
-            dispatchStore(loginData(values));
-            setValues(initialStates);
-        } 
+        }
     };
 
     useEffect(() => {
         if (sessionStorage.getItem('role') === "Admin") {
             navigate('/admin');
-        } else if (sessionStorage.getItem('role') === "Accountant" || sessionStorage.getItem('role') === 'Employee'){
-            navigate('/home',{state: {role: sessionStorage.getItem('role')}})
+        } else if (sessionStorage.getItem('role') === "Accountant" || sessionStorage.getItem('role') === 'Employee') {
+            navigate('/home', { state: { role: sessionStorage.getItem('role') } })
         }
-    })
+    }, [user])
 
     return (
         <>
@@ -66,16 +66,16 @@ const Login: React.FC = () => {
                     <form className="login">
                         <div className='login-form'>
                             <label htmlFor="email"><PersonIcon />{"   "}Email <sup>*</sup></label>
-                            <input onChange={handleChange} name='email' value={values.email} placeholder="name@example.com" required />
-                            <div className="login-error">{error.emailError}</div>
+                            <input onChange={handleOnChange} name='email' value={values.email} placeholder="name@example.com" required />
+                            <div className="login-error">{error.email}</div>
                         </div>
                         <div className='login-form'>
                             <label htmlFor="password"><LockIcon />{"   "}Password <sup>*</sup></label>
-                            <input onChange={handleChange} type='password' name='password' value={values.password} placeholder="Password@123" required />
-                            <div className="login-error">{error.passwordError}</div>
+                            <input onChange={handleOnChange} type='password' name='password' value={values.password} placeholder="Password@123" required />
+                            <div className="login-error">{error.password}</div>
                         </div>
                         <div className='submit'>
-                            <button className="login-button" onClick={handleSubmit}>Submit</button>
+                            <button className="login-button" onClick={handleOnSubmit}>Submit</button>
                         </div>
                     </form>
                 </div>
@@ -86,7 +86,3 @@ const Login: React.FC = () => {
 }
 
 export default Login;
-
-// function dispatch(arg0: (dispatch: any) => void) {
-//     throw new Error("Function not implemented.");
-// }

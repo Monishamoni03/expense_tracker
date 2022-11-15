@@ -107,7 +107,7 @@ export const addUser = (values: InputField) => (
     axios.post("http://localhost:5000/user", values)
         .then((res) => {
             dispatch(addUserSuccess(res.data));
-            console.log("Action add user: ", res.data);           
+            console.log("Action add user: ", res.data);
         })
         .catch((error) => {
             console.log("Error in add user dispatch: ", error)
@@ -164,7 +164,7 @@ export const getAllUser = () => (
 export const getSingleUser = (id: any) => (
     dispatch: Dispatch<any>
 ) => {
-    axios.get(`http://localhost:5000/user/${id}`, id)
+    axios.get(`http://localhost:5000/user/${id}`,id)
         .then((res) => {
             dispatch(singleUser(res.data));
             console.log("Action single user: ", res.data);
@@ -175,11 +175,12 @@ export const getSingleUser = (id: any) => (
 export const deleteUser = (id: any) => (
     dispatch: Dispatch<any>
 ) => {
-    console.log("DELTER ID : ", id);
+    console.log("DELETE ID : ", id);
 
     axios.delete(`http://localhost:5000/user/${id}`, id)
         .then((res) => {
             dispatch(deleteUserSuccess(res.data))
+            console.log("delete response : ", res.data)
         })
         .catch((error) => {
             console.log("Error in delete user dispatch: ", error)
@@ -219,6 +220,7 @@ export const editDepartment = (id: any, values: InputField) => (
 export const deleteDept = (id: any) => (
     dispatch: Dispatch<any>
 ) => {
+    console.log("DELTER ID : ", id);
     axios.delete(`http://localhost:5000/departments/${id}`, id)
         .then((res) => {
             dispatch(deleteDeptSuccess(res.data))
@@ -271,6 +273,7 @@ export const editCategory = (id: any, values: InputField) => (
 export const deleteCategory = (id: any) => (
     dispatch: Dispatch<any>
 ) => {
+    console.log("DELTER ID : ", id);
     axios.delete(`http://localhost:5000/categories/${id}`, id)
         .then((res) => {
             dispatch(deleteCategorySuccess(res.data))

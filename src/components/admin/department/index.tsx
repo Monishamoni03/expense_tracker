@@ -30,8 +30,12 @@ const AllDepartment: React.FC = () => {
     const [error, setError] = useState<DeptInputFieldError>(initialStateDeptError);
 
     const [show, setShow] = useState(false);
-    const departmentModalClose = () => setShow(false);
-    const departmentModalShow = () => setShow(true);
+    const DepartmentModalClose = () => setShow(false);
+    const DepartmentModalShow = () => setShow(true);
+
+    const [deleteShow, setDeleteShow] = useState(false);
+    const DepartmentDeleteModalClose = () => setDeleteShow(false);
+    const DepartmentDeleteModalShow = () => setDeleteShow(true);
 
     const rowDept: RowProps[] = [] as RowProps[];
 
@@ -39,17 +43,53 @@ const AllDepartment: React.FC = () => {
         dispatchStore(getAllDept());
     }, [success]);
 
-    const departmentDelete = async (id: number) => {
-        if (window.confirm('Are you sure you want to delete this Department?')) {
-            await dispatchStore(deleteDept(id));
-            setSuccess(true);
-            successMessage("Department deleted successfully")
-        }
+    // const departmentDelete = async (id: number) => {
+    //     if (window.confirm('Are you sure you want to delete this Department?')) {
+    //         await dispatchStore(deleteDept(id));
+    //         setSuccess(true);
+    //         successMessage("Department deleted successfully")
+    //     }
+    // }
+
+    const DepartmentDeleteSubmit = (e: React.MouseEvent) => {
+        e.preventDefault();
+        dispatchStore(deleteDept(values.id));
+        setSuccess(true);
+        DepartmentDeleteModalClose();
+        successMessage("Department deleted successfully");
     }
 
-    const departmentEditSubmit = (e: React.MouseEvent) => {
+    const DepartmentDelete = () => {
+        console.log("----Department delete----");
+
+        return (
+            <>
+                <Modal show={deleteShow} onHide={DepartmentDeleteModalClose} onCancel={() => setDeleteShow(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Delete Department</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Are you sure you want to delete this Department?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={DepartmentDeleteSubmit}>
+                            Ok
+                        </Button>
+                        <Button variant="secondary" onClick={DepartmentDeleteModalClose}>
+                            Cancel
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </>
+        )
+    }
+
+    const departmentDelete = (id: number) => {
+        DepartmentDeleteModalShow();
+    }
+
+    const DepartmentEditSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
-        departmentModalClose();
 
         console.log("value in onsubmit", values);
 
@@ -64,6 +104,7 @@ const AllDepartment: React.FC = () => {
             dispatchStore(editDepartment(values.id, values));
             setSuccess(true);
             successMessage("Successfully department name updated to the table");
+            DepartmentModalClose();
             console.log("Output values", values);       //printing result
         }
     };
@@ -91,12 +132,12 @@ const AllDepartment: React.FC = () => {
     }
 
     const DepartmentEdit = () => {
-        console.log("----------Hi department edit----------");
+        console.log("-----Hi department edit-----");
         console.log("Value in edit fn", values);
 
         return (
             <>
-                <Modal show={show} onHide={departmentModalClose} onCancel={() => setShow(false)}>
+                <Modal show={show} onHide={DepartmentModalClose} onCancel={() => setShow(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>Edit User</Modal.Title>
                     </Modal.Header>
@@ -104,10 +145,10 @@ const AllDepartment: React.FC = () => {
                         <DepartmentForm />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={departmentEditSubmit}>
+                        <Button variant="primary" onClick={DepartmentEditSubmit}>
                             Update
                         </Button>
-                        <Button variant="secondary" onClick={departmentModalClose}>
+                        <Button variant="secondary" onClick={DepartmentModalClose}>
                             Close
                         </Button>
                     </Modal.Footer>
@@ -121,7 +162,7 @@ const AllDepartment: React.FC = () => {
         console.log("value", value);
         //retrieving old values
         setValues(value);
-        departmentModalShow();
+        DepartmentModalShow();
     }
 
     departments?.forEach((value: any) => {
@@ -152,6 +193,7 @@ const AllDepartment: React.FC = () => {
                 />
                 <AddModalDepartment />
                 <DepartmentEdit />
+                <DepartmentDelete />
             </div>
 
             <br /><br />

@@ -1,4 +1,4 @@
-//ADD USER - Modal
+//ADD USER - Modal  [OLD]
 
 import React, { Dispatch, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
