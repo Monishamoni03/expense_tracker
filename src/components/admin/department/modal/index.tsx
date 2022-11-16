@@ -2,7 +2,6 @@
 
 import React, { Dispatch, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import { addDept, getAllDept } from '../../../../action/action';
 import { DeptInputField, DeptInputFieldError } from '../../../../shared/types/type';
 import { initialStateDept, initialStateDeptError } from '../../../../shared/types/types';
@@ -10,18 +9,18 @@ import successMessage from '../../../../shared/utils/alertMessage';
 import ValidateDept from '../../../../shared/utils/ValidateDepartment';
 import { store } from '../../../../store';
 import Buttons from '../../../common/button/index';
+import ModalType from '../../../common/modal';
+import AddModalDepartment from '../../../config/department';
 
-const AddModalDepartment = () => {
+const AddDepartmentModalData = () => {
 
-    let [values, setValues] = useState<DeptInputField>(initialStateDept);
-    const [error, setError] = useState<DeptInputFieldError>(initialStateDeptError);
     const [show, setShow] = useState(false);
     const [success, setSuccess] = useState(false);
 
-    const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
+    let [values, setValues] = useState<DeptInputField>(initialStateDept);
+    const [error, setError] = useState<DeptInputFieldError>(initialStateDeptError);
 
-    const deptModalClose = () => setShow(false);
-    const deptModalShow = () => setShow(true);
+    const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
 
     useEffect(() => {
         dispatchStore(getAllDept());
@@ -29,7 +28,7 @@ const AddModalDepartment = () => {
 
     const departmentModalSubmit = async (e: React.MouseEvent) => {
         e.preventDefault();
-        deptModalClose();
+        // deptModalClose();
 
         const isValid = ValidateDept(values);
         console.log("Is valid", isValid);
@@ -47,56 +46,35 @@ const AddModalDepartment = () => {
         }
     };
 
-    const DepartmentForm = (): any => {
-        [values, setValues] = useState<DeptInputField>(initialStateDept);
-        const [error, setError] = useState<DeptInputFieldError>(initialStateDeptError);
-
-        const onDepartment = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-            setValues(
-                {
-                    ...values,
-                    [e.target.name]: e.target.value
-                }
-            )
-        }
-
-        return (
-            <form className="login">
-                <div className='login-form'>
-                    <label htmlFor="deptName">Department Name <sup>*</sup></label>
-                    <input onChange={(e) => onDepartment(e)} name='deptName' value={values.deptName} placeholder="Enter the department name" required />
-                    <div style={{ color: "red" }}>{error.deptNameError}</div>
-                </div>
-            </form>
-        )
-    }
-
     return (
-        <>
+        <div className="addModal">
+
             <Buttons
                 move="right"
-                onClick={deptModalShow}
+                onClick={() => setShow(true)}
                 text="Add Department"
             />
 
-            <Modal show={show} onHide={deptModalClose} onCancel={() => setShow(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add Department</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <DepartmentForm />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={departmentModalSubmit}>
-                        Submit
-                    </Button>
-                    <Button variant="secondary" onClick={deptModalClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
+            <ModalType
+                show={show}
+                handleClose={() => setShow(false)}
+                handleShow={() => setShow(true)}
+                modalTitle="Add Department"
+                config={<AddModalDepartment />}
+            >
+
+                {/* FOOTER */}
+                 
+                {/*<Button variant="primary" onClick={UserModalSubmit}>
+                    Submit
+                </Button> */}
+                <Button variant="secondary" onClick={() => setShow(false)}>
+                    Close
+                </Button>
+            </ModalType>
+
+        </div>
     );
 }
 
-export default AddModalDepartment;
+export default AddDepartmentModalData;

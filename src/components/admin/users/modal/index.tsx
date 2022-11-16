@@ -1,18 +1,18 @@
 //ADD USER - MODAL [New]
 
 import React, { Dispatch, useEffect, useState } from "react";
-import { InputFieldError, InputFieldUser } from "../../../../../shared/types/type";
-import { initialStateError, initialStateUser } from "../../../../../shared/types/types";
-import ModalType from "../../../../common/modal";
-import { store } from "../../../../../store";
-import { addUser, getAllUser } from "../../../../../action/action";
-import ValidateUser from "../../../../../shared/utils/ValidateUser";
-import successMessage from "../../../../../shared/utils/alertMessage";
+import { InputFieldError, InputFieldUser } from "../../../../shared/types/type";
+import { initialStateError, initialStateUser } from "../../../../shared/types/types";
+import ModalType from "../../../common/modal";
+import { store } from "../../../../store";
+import { addUser, getAllUser } from "../../../../action/action";
+import ValidateUser from "../../../../shared/utils/ValidateUser";
+import successMessage from "../../../../shared/utils/alertMessage";
 import { Button } from "react-bootstrap";
-import Buttons from "../../../../common/button";
-import addUserModal from "../../../../config/users";
+import Buttons from "../../../common/button";
+import { AddUserModal } from "../../../config/users";
 
-const AddModalData = () => {
+const AddUserModalData = () => {
 
     const [show, setShow] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -59,14 +59,14 @@ const AddModalData = () => {
                 handleClose={() => setShow(false)}
                 handleShow={() => setShow(true)}
                 modalTitle="Add User"
-                config={addUserModal}
+                config={AddUserModal()}
             >
 
                 {/* FOOTER */}
-
-                <Button variant="primary" onClick={UserModalSubmit}>
+                
+                {/* <Button variant="primary" onClick={UserModalSubmit}>
                     Submit
-                </Button>
+                </Button> */}
                 <Button variant="secondary" onClick={() => setShow(false)}>
                     Close
                 </Button>
@@ -76,4 +76,4 @@ const AddModalData = () => {
     );
 }
 
-export default AddModalData;
+export default AddUserModalData;

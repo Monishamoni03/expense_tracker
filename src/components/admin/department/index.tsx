@@ -1,4 +1,4 @@
-//ADMIN ---> Available Department with add btn in the top, edit, delete
+//ADMIN ---> Available Department with add btn in the top, edit, delete 
 
 import React, { Dispatch, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,11 +13,13 @@ import "../../login/index.css"
 import { initialStateDept, initialStateDeptError } from "../../../shared/types/types";
 import { DeptInputFieldError, DeptInputField } from "../../../shared/types/type";
 import ValidateDept from "../../../shared/utils/ValidateDepartment";
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import NavBar from "../../common/navbar";
 import { columnDept } from "../../config/department";
 import successMessage from "../../../shared/utils/alertMessage";
-import AddModalDepartment from "./modal";
+import ModalType from "../../common/modal";
+import AddDepartmentModalData from "./modal";
+import ValidateFields from "../../../shared/utils/ValidateFields";
 
 const AllDepartment: React.FC = () => {
 
@@ -30,12 +32,7 @@ const AllDepartment: React.FC = () => {
     const [error, setError] = useState<DeptInputFieldError>(initialStateDeptError);
 
     const [show, setShow] = useState(false);
-    const DepartmentModalClose = () => setShow(false);
-    const DepartmentModalShow = () => setShow(true);
-
-    const [deleteShow, setDeleteShow] = useState(false);
-    const DepartmentDeleteModalClose = () => setDeleteShow(false);
-    const DepartmentDeleteModalShow = () => setDeleteShow(true);
+    const [editShow, setEditShow] = useState(false);
 
     const rowDept: RowProps[] = [] as RowProps[];
 
@@ -51,11 +48,11 @@ const AllDepartment: React.FC = () => {
     //     }
     // }
 
-    const DepartmentDeleteSubmit = (e: React.MouseEvent) => {
+    const handleOnDepartmentDeleteSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
-        dispatchStore(deleteDept(values.id));
+        // dispatchStore(deleteDept(values.id));
         setSuccess(true);
-        DepartmentDeleteModalClose();
+        setShow(false);
         successMessage("Department deleted successfully");
     }
 
@@ -64,60 +61,81 @@ const AllDepartment: React.FC = () => {
 
         return (
             <>
-                <Modal show={deleteShow} onHide={DepartmentDeleteModalClose} onCancel={() => setDeleteShow(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Delete Department</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Are you sure you want to delete this Department?
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={DepartmentDeleteSubmit}>
-                            Ok
-                        </Button>
-                        <Button variant="secondary" onClick={DepartmentDeleteModalClose}>
-                            Cancel
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                <ModalType
+                    show={show}
+                    handleClose={() => setShow(false)}
+                    handleShow={() => setShow(true)}
+                    modalTitle="Delete Department"
+                >
+                    Are you sure you want to delete this department?
+
+                    {/* FOOTER */}
+
+                    <Button variant="primary" onClick={handleOnDepartmentDeleteSubmit}>
+                        Delete
+                    </Button>
+                    <Button variant="secondary" onClick={() => setShow(false)}>
+                        Cancel
+                    </Button>
+                </ModalType>               
             </>
         )
     }
 
     const departmentDelete = (id: number) => {
-        DepartmentDeleteModalShow();
+        console.log("Iddd in deleteeee", id);
+        setShow(true);
+        dispatchStore(deleteDept(id));
     }
 
-    const DepartmentEditSubmit = (e: React.MouseEvent) => {
+    // const handleOnDepartmentEditSubmit = (e: React.MouseEvent) => {
+    //     e.preventDefault();
+
+    //     console.log("value in onsubmit", values);
+
+    //     const isValid = ValidateFields(values);
+    //     console.log("Is valid", isValid);
+    //     setError({
+    //         ...error,
+    //         [e.target.name]: error
+    //     })
+    //     console.log("hello err: ", error);
+    //     if (isValid) {
+    //         dispatchStore(editDepartment(values.id, values));
+    //         setSuccess(true);
+    //         successMessage("Successfully department name updated to the table");
+    //         setEditShow(false);
+    //         console.log("Output values", values);       //printing result
+    //     }
+    // };
+
+    const handleOnDepartmentEditSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
 
-        console.log("value in onsubmit", values);
-
-        const isValid = ValidateDept(values);
-        console.log("Is valid", isValid);
-        setError({
-            ...error,
-            [e.target.name]: error
-        })
-        console.log("hello err: ", error);
-        if (isValid) {
-            dispatchStore(editDepartment(values.id, values));
-            setSuccess(true);
+        dispatchStore(editDepartment(values.id, values));
+        if (!error.deptName) {
             successMessage("Successfully department name updated to the table");
-            DepartmentModalClose();
-            console.log("Output values", values);       //printing result
         }
+        setSuccess(true);
+        setEditShow(false);
     };
 
     const DepartmentForm = (): any => {
         [values, setValues] = useState<DeptInputField>(values);
         const [error, setError] = useState<DeptInputFieldError>(initialStateDeptError);
 
-        const onDepartment = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const onDepartment = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const errorMsg = ValidateFields(e.target.name, e.target.value);
             setValues({
                 ...values,
                 [e.target.name]: e.target.value
             })
+            setError({
+                ...error,
+                [e.target.name]: errorMsg
+            })
+    
+            console.log("Login error: ", error)
         }
 
         return (
@@ -125,7 +143,7 @@ const AllDepartment: React.FC = () => {
                 <div className='login-form'>
                     <label htmlFor="deptName">Department Name <sup>*</sup></label>
                     <input onChange={(e) => onDepartment(e)} name='deptName' value={values.deptName} placeholder="Enter the department name" required />
-                    <div style={{ color: "red" }}>{error.deptNameError}</div>
+                    <div style={{ color: "red" }}>{error.deptName}</div>
                 </div>
             </form>
         )
@@ -137,32 +155,33 @@ const AllDepartment: React.FC = () => {
 
         return (
             <>
-                <Modal show={show} onHide={DepartmentModalClose} onCancel={() => setShow(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Edit User</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <DepartmentForm />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={DepartmentEditSubmit}>
-                            Update
-                        </Button>
-                        <Button variant="secondary" onClick={DepartmentModalClose}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                <ModalType
+                    show={editShow}
+                    handleClose={() => setEditShow(false)}
+                    handleShow={() => setEditShow(true)}
+                    modalTitle="Edit User"
+                >
+                    <DepartmentForm />
+
+                    {/* FOOTER */}
+
+                    <Button variant="primary" onClick={handleOnDepartmentEditSubmit}>
+                        Update
+                    </Button>
+                    <Button variant="secondary" onClick={() => setEditShow(false)}>
+                        Close
+                    </Button>
+                </ModalType>
             </>
         )
     }
 
-    const departmentEdit = (id, value) => {
+    const handleOnDepartmentEdit = (id, value) => {
         console.log("id", id);
         console.log("value", value);
         //retrieving old values
         setValues(value);
-        DepartmentModalShow();
+        setEditShow(true);
     }
 
     departments?.forEach((value: any) => {
@@ -171,7 +190,7 @@ const AllDepartment: React.FC = () => {
             deptName: value.deptName,
             actionButtons: [{
                 children: "Update",
-                onClick: () => departmentEdit(value.id, value)
+                onClick: () => handleOnDepartmentEdit(value.id, value)
             },
             {
                 children: "Delete",
@@ -191,7 +210,7 @@ const AllDepartment: React.FC = () => {
                     onClick={() => navigate('/admin')}
                     text="Go Back"
                 />
-                <AddModalDepartment />
+                <AddDepartmentModalData />
                 <DepartmentEdit />
                 <DepartmentDelete />
             </div>

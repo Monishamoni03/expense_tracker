@@ -73,7 +73,7 @@ main {
 }
 
 .sidebar {
-  background: lightpink;
+  background: rgb(92, 88, 88);
   /* height: 270px; */
   color: white;
   transition: all 0.5s;
@@ -106,7 +106,7 @@ main {
 }
 
 .active {
-  background: lightskyblue;
+  background: rgb(68, 68, 70);
   color: black;
 }
 

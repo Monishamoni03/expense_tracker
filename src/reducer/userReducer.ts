@@ -5,7 +5,8 @@ const initialState: UserState = {
     users: [{}],
     user: {
         email: '',
-        password: ''
+        password: '',
+        role: '',
     },
     // addUserSuccess: {
     //     email: "",
@@ -52,6 +53,11 @@ const userReducer = (state: UserState = initialState, action: UserActionsTypes):
             return {
                 ...state,
                 users: action.payload
+            }
+        case types.ADD_USER:
+            return {
+                ...state,
+                user: action.payload
             }
         default:
             return state;

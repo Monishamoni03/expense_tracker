@@ -61,16 +61,22 @@
       "id": 11
     },
     {
-      "email": "nivesana29@gmail.com",
-      "password": "Nive@123",
-      "role": "Accountant",
-      "id": 12
-    },
-    {
       "email": "swethambari@gmail.com",
       "password": "Bari@123",
       "role": "Employee",
       "id": 13
+    },
+    {
+      "email": "krithika27@gmail.com",
+      "password": "Krithika@123",
+      "role": "Accountant",
+      "id": 14
+    },
+    {
+      "email": "yalhini14@gmail.com",
+      "password": "Yalhu@123",
+      "role": "Employee",
+      "id": 15
     }
   ],
   "roles": [

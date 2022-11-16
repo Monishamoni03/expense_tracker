@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Dispatch } from "redux";
 import { CategoryInputField, DeptInputField, InputField, UserState } from "../shared/types/type";
@@ -74,6 +73,11 @@ export const allCategory = (users: UserState): any => ({
     type: types.GET_ALL_CATEGORY,
     payload: users
 })
+
+export const saveValue = (user): any => {
+    type: types.ADD_USER
+    payload: user
+}
 
 export const loginData = (values: InputField) => (
     dispatch: Dispatch<any>
@@ -293,3 +297,9 @@ export const getAllCategory = () => (
 
         })
 }
+
+export const saveUser = (user) => (
+    dispatch: Dispatch<any>
+    ) => {
+        dispatch(saveValue(user));
+    }

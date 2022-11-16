@@ -1,4 +1,4 @@
-//ADD DEPARTMENT - Modal
+//ADD CATEGORY - Modal
 
 import React, { Dispatch, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
@@ -10,18 +10,18 @@ import successMessage from '../../../../shared/utils/alertMessage';
 import ValidateCategory from '../../../../shared/utils/ValidateCategory';
 import { store } from '../../../../store';
 import Buttons from '../../../common/button/index';
+import ModalType from '../../../common/modal';
+import AddModalCategory from '../../../config/category';
 
-const AddModalCategory = () => {
+const AddCategoryModalData = () => {
 
-    let [values, setValues] = useState<CategoryInputField>(initialStateCategory);
-    const [error, setError] = useState<CategoryInputFieldError>(initialStateCategoryError);
     const [show, setShow] = useState(false);
     const [success, setSuccess] = useState(false);
 
-    const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
+    let [values, setValues] = useState<CategoryInputField>(initialStateCategory);
+    const [error, setError] = useState<CategoryInputFieldError>(initialStateCategoryError);
 
-    const categoryModalClose = () => setShow(false);
-    const categoryModalShow = () => setShow(true);
+    const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
 
     useEffect(() => {
         dispatchStore(getAllCategory());
@@ -29,7 +29,7 @@ const AddModalCategory = () => {
 
     const categoryModalSubmit = async (e: React.MouseEvent) => {
         e.preventDefault();
-        categoryModalClose();
+        // categoryModalClose();
 
         const isValid = ValidateCategory(values);
         console.log("Is valid", isValid);
@@ -47,56 +47,61 @@ const AddModalCategory = () => {
         }
     };
 
-    const CategoryForm = (): any => {
-        [values, setValues] = useState<CategoryInputField>(initialStateCategory);
-        const [error, setError] = useState<CategoryInputFieldError>(initialStateCategoryError);
+    // const CategoryForm = (): any => {
+    //     [values, setValues] = useState<CategoryInputField>(initialStateCategory);
+    //     const [error, setError] = useState<CategoryInputFieldError>(initialStateCategoryError);
 
-        const onCategory = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-            setValues(
-                {
-                    ...values,
-                    [e.target.name]: e.target.value
-                }
-            )
-        }
+    //     const onCategory = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    //         setValues(
+    //             {
+    //                 ...values,
+    //                 [e.target.name]: e.target.value
+    //             }
+    //         )
+    //     }
 
-        return (
-            <form className="login">
-                <div className='login-form'>
-                    <label htmlFor="categoryName">Category Name <sup>*</sup></label>
-                    <input onChange={(e) => onCategory(e)} name='categoryName' value={values.categoryName} placeholder="Enter the category name" required />
-                    <div style={{ color: "red" }}>{error.categoryNameError}</div>
-                </div>
-            </form>
-        )
-    }
+    //     return (
+    //         <form className="login">
+    //             <div className='login-form'>
+    //                 <label htmlFor="categoryName">Category Name <sup>*</sup></label>
+    //                 <input onChange={(e) => onCategory(e)} name='categoryName' value={values.categoryName} placeholder="Enter the category name" required />
+    //                 <div style={{ color: "red" }}>{error.categoryNameError}</div>
+    //             </div>
+    //         </form>
+    //     )
+    // }
 
     return (
         <>
-            <Buttons
-                move="right"
-                onClick={categoryModalShow}
-                text="Add Category"
-            />
+            <div className="addModal">
 
-            <Modal show={show} onHide={categoryModalClose} onCancel={() => setShow(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add Category</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <CategoryForm />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={categoryModalSubmit}>
-                        Submit
-                    </Button>
-                    <Button variant="secondary" onClick={categoryModalClose}>
+                <Buttons
+                    move="right"
+                    onClick={() => setShow(true)}
+                    text="Add Category"
+                />
+
+                <ModalType
+                    show={show}
+                    handleClose={() => setShow(false)}
+                    handleShow={() => setShow(true)}
+                    modalTitle="Add Category"
+                    config={<AddModalCategory />}
+                >
+
+                    {/* FOOTER */}
+
+                    {/*<Button variant="primary" onClick={UserModalSubmit}>
+        Submit
+    </Button> */}
+                    <Button variant="secondary" onClick={() => setShow(false)}>
                         Close
                     </Button>
-                </Modal.Footer>
-            </Modal>
+                </ModalType>
+
+            </div>
         </>
     );
 }
 
-export default AddModalCategory;
+export default AddCategoryModalData;

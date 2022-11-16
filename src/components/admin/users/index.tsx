@@ -1,4 +1,4 @@
-//ADMIN ---> USERS with add btn in the top, edit, delete
+//ADMIN ---> USERS with add btn in the top, edit, delete  [NEW]
 
 import React, { Dispatch, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,8 +21,11 @@ import successMessage from "../../../shared/utils/alertMessage";
 import "../../../assets/css/Style";
 import "../../login/index.css";
 import NavBar from "../../common/navbar";
-import AddModalData from "../../admin/users/modal/addModal/index";
+import AddUserModalData from "./modal/index";
 import { columnUser } from "../../config/users";
+import DeleteModal from "./modal/deleteModal";
+import ModalType from "../../common/modal";
+import ValidateFields from "../../../shared/utils/ValidateFields";
 
 const AllUser: React.FC = () => {
 
@@ -35,12 +38,7 @@ const AllUser: React.FC = () => {
     const [error, setError] = useState<InputFieldError>(initialStateError);
 
     const [show, setShow] = useState(false);
-    const UserModalClose = () => setShow(false);
-    const UserModalShow = () => setShow(true);
-
-    const [deleteShow, setDeleteShow] = useState(false);
-    const UserDeleteModalClose = () => setDeleteShow(false);
-    const UserDeleteModalShow = () => setDeleteShow(true);
+    const [editShow, setEditShow] = useState(false);
 
     const rowUser: RowProps[] = [] as RowProps[];
 
@@ -56,12 +54,12 @@ const AllUser: React.FC = () => {
     //     }
     // }
 
-    const UserDeleteSubmit = (e: React.MouseEvent) => {
+    const handleOnUserDeleteSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
         console.log("delete id  in usersubmit : ", values.id)
         // dispatchStore(deleteUser(values.id));
         setSuccess(true);
-        UserDeleteModalClose();
+        setShow(false);
         successMessage("User deleted successfully");
     }
 
@@ -70,34 +68,34 @@ const AllUser: React.FC = () => {
 
         return (
             <>
-                <Modal show={deleteShow} onHide={UserDeleteModalClose} onCancel={() => setDeleteShow(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Delete User</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Are you sure you want to delete this user?
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={UserDeleteSubmit}>
-                            Ok
-                        </Button>
-                        <Button variant="secondary" onClick={UserDeleteModalClose}>
-                            Cancel
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                <ModalType
+                    show={show}
+                    handleClose={() => setShow(false)}
+                    handleShow={() => setShow(true)}
+                    modalTitle="Delete User"
+                >
+                    Are you sure you want to delete this user?
+
+                    {/* FOOTER */}
+
+                    <Button variant="primary" onClick={handleOnUserDeleteSubmit}>
+                        Delete
+                    </Button>
+                    <Button variant="secondary" onClick={() => setShow(false)}>
+                        Cancel
+                    </Button>
+                </ModalType>
             </>
         )
     }
 
     const handleOnUserDelete = (id: number) => {
         console.log("Iddd in deleteeee", id);
-        
-        UserDeleteModalShow();
+        setShow(true);
         dispatchStore(deleteUser(id));
     }
 
-    const UserEditSubmit = (e: React.MouseEvent) => {
+    const handleOnUserEditSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
 
         console.log("value in onsubmit", values);
@@ -113,7 +111,8 @@ const AllUser: React.FC = () => {
             dispatchStore(editUser(values.id, values));
             setSuccess(true);
             successMessage("Successfully user updated to the table");
-            UserModalClose();
+            // UserModalClose();
+            setEditShow(false);
             console.log("Output values", values);       //printing result
         }
     };
@@ -131,6 +130,7 @@ const AllUser: React.FC = () => {
             )
         }
 
+
         return (
             <form className="login">
                 <div className='login-form'>
@@ -145,7 +145,7 @@ const AllUser: React.FC = () => {
                 </div>
                 <div className='login-form'>
                     <label htmlFor="role"><SupervisorAccountIcon />Role</label>
-                    <select name="role" onChange={(e) => onUser(e)}>
+                    <select name="role" onChange={(e) => onUser(e)} required>
                         <option>Please choose an option</option>
                         <option value="Admin">Admin</option>
                         <option value="Accountant">Accountant</option>
@@ -162,7 +162,24 @@ const AllUser: React.FC = () => {
 
         return (
             <>
-                <Modal show={show} onHide={UserModalClose} onCancel={() => setShow(false)}>
+                <ModalType
+                    show={editShow}
+                    handleClose={() => setEditShow(false)}
+                    handleShow={() => setEditShow(true)}
+                    modalTitle="Edit User"
+                >
+                    <UserForm />
+
+                    {/* FOOTER */}
+
+                    <Button variant="primary" onClick={handleOnUserEditSubmit}>
+                        Update
+                    </Button>
+                    <Button variant="secondary" onClick={() => setEditShow(false)}>
+                        Close
+                    </Button>
+                </ModalType>
+                {/* <Modal show={show} onHide={UserModalClose} onCancel={() => setShow(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>Edit User</Modal.Title>
                     </Modal.Header>
@@ -170,14 +187,14 @@ const AllUser: React.FC = () => {
                         <UserForm />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={UserEditSubmit}>
+                        <Button variant="primary" onClick={handleOnUserEditSubmit}>
                             Update
                         </Button>
                         <Button variant="secondary" onClick={UserModalClose}>
                             Close
                         </Button>
                     </Modal.Footer>
-                </Modal>
+                </Modal> */}
             </>
         )
     }
@@ -187,7 +204,10 @@ const AllUser: React.FC = () => {
         console.log("value", value);
         //retrieving old values
         setValues(value);
-        UserModalShow();
+        setEditShow(true);
+        //call a  func from config
+        // EditUserModal(values);
+        // UserModalShow();
     }
 
     users?.forEach((value: any) => {
@@ -217,7 +237,7 @@ const AllUser: React.FC = () => {
                     onClick={() => navigate('/admin')}
                     text="Go Back"
                 />
-                <AddModalData />
+                <AddUserModalData />
                 <UserEdit />
                 <UserDelete />
             </div>

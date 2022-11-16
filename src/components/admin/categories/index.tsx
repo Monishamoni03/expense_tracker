@@ -15,10 +15,12 @@ import { deleteCategory, getAllCategory } from "../../../action/action";
 import { RowProps } from "../../../shared/types/type";
 import "../../../assets/css/Style";
 import "../../login/index.css";
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { columnCategory } from "../../config/category";
 import successMessage from "../../../shared/utils/alertMessage";
 import AddModalCategory from "./modal";
+import ModalType from "../../common/modal";
+import ValidateFields from "../../../shared/utils/ValidateFields";
 
 const AllCategory: React.FC = () => {
 
@@ -31,12 +33,8 @@ const AllCategory: React.FC = () => {
     const [error, setError] = useState<CategoryInputFieldError>(initialStateCategoryError);
 
     const [show, setShow] = useState(false);
-    const CategoryModalClose = () => setShow(false);
-    const CategoryModalShow = () => setShow(true);
+    const [editShow, setEditShow] = useState(false);
 
-    const [deleteShow, setDeleteShow] = useState(false);
-    const CategoryDeleteModalClose = () => setDeleteShow(false);
-    const CategoryDeleteModalShow = () => setDeleteShow(true);
 
     const rowCategory: RowProps[] = [] as RowProps[];
 
@@ -52,11 +50,11 @@ const AllCategory: React.FC = () => {
     //     }
     // }
 
-    const CategoryDeleteSubmit = (e: React.MouseEvent) => {
+    const handleOnCategoryDeleteSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
-        dispatchStore(deleteCategory(values.id));
+        // dispatchStore(deleteCategory(values.id));
         setSuccess(true);
-        CategoryDeleteModalClose();
+        setShow(false);
         successMessage("Category deleted successfully");
     }
 
@@ -65,60 +63,80 @@ const AllCategory: React.FC = () => {
 
         return (
             <>
-                <Modal show={deleteShow} onHide={CategoryDeleteModalClose} onCancel={() => setDeleteShow(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Delete Category</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Are you sure you want to delete this Category?
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={CategoryDeleteSubmit}>
-                            Ok
-                        </Button>
-                        <Button variant="secondary" onClick={CategoryDeleteModalClose}>
-                            Cancel
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                <ModalType
+                    show={show}
+                    handleClose={() => setShow(false)}
+                    handleShow={() => setShow(true)}
+                    modalTitle="Delete Category"
+                >
+                    Are you sure you want to delete this category?
+
+                    {/* FOOTER */}
+
+                    <Button variant="primary" onClick={handleOnCategoryDeleteSubmit}>
+                        Delete
+                    </Button>
+                    <Button variant="secondary" onClick={() => setShow(false)}>
+                        Cancel
+                    </Button>
+                </ModalType>
             </>
         )
     }
 
     const categoryDelete = (id: number) => {
-        CategoryDeleteModalShow();
+        setShow(true);
+        dispatchStore(deleteCategory(id));
     }
 
-    const CategoryEditSubmit = (e: React.MouseEvent) => {
+    // const handleOnCategoryEditSubmit = (e: React.MouseEvent) => {
+    //     e.preventDefault();
+
+    //     console.log("value in onsubmit", values);
+
+    //     const isValid = ValidateCategory(values);
+    //     console.log("Is valid", isValid);
+    //     setError({
+    //         ...error,
+    //         [e.target.name]: error
+    //     })
+    //     console.log("hello err: ", error);
+    //     if (isValid) {
+    //         dispatchStore(editCategory(values.id, values));
+    //         setSuccess(true);
+    //         successMessage("Successfully category name updated to the table");
+    //         setEditShow(false);
+    //         console.log("Output values", values);       //printing result
+    //     }
+    // };
+
+    const handleOnCategoryEditSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
 
-        console.log("value in onsubmit", values);
-
-        const isValid = ValidateCategory(values);
-        console.log("Is valid", isValid);
-        setError({
-            ...error,
-            [e.target.name]: error
-        })
-        console.log("hello err: ", error);
-        if (isValid) {
-            dispatchStore(editCategory(values.id, values));
-            setSuccess(true);
+        dispatchStore(editCategory(values.id, values));
+        if (!error.categoryName) {
             successMessage("Successfully category name updated to the table");
-            CategoryModalClose();
-            console.log("Output values", values);       //printing result
         }
+        setSuccess(true);
+        setEditShow(false);
     };
 
     const CategoryForm = (): any => {
         [values, setValues] = useState<CategoryInputField>(values);
         const [error, setError] = useState<CategoryInputFieldError>(initialStateCategoryError);
 
-        const onCategory = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const onCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const errorMsg = ValidateFields(e.target.name, e.target.value);
             setValues({
                 ...values,
                 [e.target.name]: e.target.value
             })
+            setError({
+                ...error,
+                [e.target.name]: errorMsg
+            })
+    
+            console.log("Login error: ", error)
         }
 
         return (
@@ -126,7 +144,7 @@ const AllCategory: React.FC = () => {
                 <div className='login-form'>
                     <label htmlFor="categoryName">Category Name <sup>*</sup></label>
                     <input onChange={(e) => onCategory(e)} name='categoryName' value={values.categoryName} placeholder="Enter the category name" required />
-                    <div style={{ color: "red" }}>{error.categoryNameError}</div>
+                    <div style={{ color: "red" }}>{error.categoryName}</div>
                 </div>
             </form>
         )
@@ -138,32 +156,33 @@ const AllCategory: React.FC = () => {
 
         return (
             <>
-                <Modal show={show} onHide={CategoryModalClose} onCancel={() => setShow(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Edit Category</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <CategoryForm />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={CategoryEditSubmit}>
-                            Update
-                        </Button>
-                        <Button variant="secondary" onClick={CategoryModalClose}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                <ModalType
+                    show={editShow}
+                    handleClose={() => setEditShow(false)}
+                    handleShow={() => setEditShow(true)}
+                    modalTitle="Edit User"
+                >
+                    <CategoryForm />
+
+                    {/* FOOTER */}
+
+                    <Button variant="primary" onClick={handleOnCategoryEditSubmit}>
+                        Update
+                    </Button>
+                    <Button variant="secondary" onClick={() => setEditShow(false)}>
+                        Close
+                    </Button>
+                </ModalType>
             </>
         )
     }
 
-    const categoryEdit = (id, value) => {
+    const handleOnCategoryEdit = (id, value) => {
         console.log("id", id);
         console.log("value", value);
         //retrieving old values
         setValues(value);
-        CategoryModalShow();
+        setEditShow(true);
     }
 
     categories?.forEach((value: any) => {
@@ -172,7 +191,7 @@ const AllCategory: React.FC = () => {
             categoryName: value.categoryName,
             actionButtons: [{
                 children: "Update",
-                onClick: () => categoryEdit(value.id, value)
+                onClick: () => handleOnCategoryEdit(value.id, value)
             },
             {
                 children: "Delete",

@@ -5,6 +5,7 @@ export const EDIT_USER_SUCCESS = "EDIT_USER_SUCCESS";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
 export const GET_ALL_USER = "GET_ALL_USER";
 export const SINGLE_USER = "SINGLE_USER";
+export const ADD_USER = "ADD_USER";
 
 export const ADD_DEPT_SUCCESS = "ADD_DEPT_SUCCESS";
 export const EDIT_DEPT_SUCCESS = "EDIT_DEPT_SUCCESS";

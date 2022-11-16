@@ -37,7 +37,7 @@ const Menu: React.FC = () => {
         <div className="menu-container">
             <div style={{ width: "450px" }} className="sidebar">
             <div className="top-section">
-                <h1 className="site-title" style={{ display:"block"}}>Welcome Admin</h1>
+                <h1 className="site-title" style={{ display: "block", textAlign: "center"}}>Welcome Admin</h1>
                     <div style={{ marginLeft: isOpen ? "5px" : "-10px", textDecoration: "none" }} className="bars">
                       {/* <FaBars onClick={toggle} /> */}
                     </div>

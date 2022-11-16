@@ -33,6 +33,7 @@ interface DeptInputField {
 }
 
 interface DeptInputFieldError {
+    deptName?: string
     deptNameError: string
 }
 
@@ -41,6 +42,7 @@ interface CategoryInputField {
     categoryName: string
 }
 interface CategoryInputFieldError {
+    categoryName?: string,
     categoryNameError: string
 }
 

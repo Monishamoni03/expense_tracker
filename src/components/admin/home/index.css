@@ -26,7 +26,7 @@
 
 .admin-button {
     border: 1px solid white;
-    background-color: #2a0845;
+    background-color: #222124;
     color: #f0f0f0;
     font-weight: bold;
     font-size: 20px;
@@ -36,11 +36,11 @@
 }
 
 .admin-button:hover {
-    background-color: darkmagenta;
+    background-color: rgb(185, 181, 185);
 }
 
 .admin-button:active {
-    background-color: blueviolet;
+    background-color: rgb(130, 125, 134);
 }
 
 @media screen and (max-width: 960px) {
