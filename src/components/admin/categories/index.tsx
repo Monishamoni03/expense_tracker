@@ -9,7 +9,6 @@ import TableData from "../../common/table";
 import { store } from "../../../store";
 import { initialStateCategory, initialStateCategoryError } from "../../../shared/types/types";
 import { CategoryInputFieldError, CategoryInputField } from "../../../shared/types/type";
-import ValidateCategory from "../../../shared/utils/ValidateCategory";
 import { editCategory } from "../../../action/action";
 import { deleteCategory, getAllCategory } from "../../../action/action";
 import { RowProps } from "../../../shared/types/type";
@@ -17,10 +16,10 @@ import "../../../assets/css/Style";
 import "../../login/index.css";
 import { Button } from "react-bootstrap";
 import { columnCategory } from "../../config/category";
-import successMessage from "../../../shared/utils/alertMessage";
 import AddModalCategory from "./modal";
-import ModalType from "../../common/modal";
+import ConfirmModal from "../../common/modal";
 import ValidateFields from "../../../shared/utils/ValidateFields";
+import showSuccessMessage from "../../../shared/utils/alertMessage";
 
 const AllCategory: React.FC = () => {
 
@@ -35,6 +34,7 @@ const AllCategory: React.FC = () => {
     const [show, setShow] = useState(false);
     const [editShow, setEditShow] = useState(false);
 
+    const [deleteId, setDeleteId] = useState();
 
     const rowCategory: RowProps[] = [] as RowProps[];
 
@@ -42,20 +42,11 @@ const AllCategory: React.FC = () => {
         dispatchStore(getAllCategory());
     }, [success]);
 
-    // const categoryDelete = async (id: number) => {
-    //     if (window.confirm('Are you sure you want to delete this Category?')) {
-    //         await dispatchStore(deleteCategory(id));
-    //         setSuccess(true);
-    //         successMessage("Category deleted successfully")
-    //     }
-    // }
-
-    const handleOnCategoryDeleteSubmit = (e: React.MouseEvent) => {
-        e.preventDefault();
-        // dispatchStore(deleteCategory(values.id));
+    const handleOnCategoryDeleteSubmit = () => {
+        dispatchStore(deleteCategory(deleteId));
         setSuccess(true);
         setShow(false);
-        successMessage("Category deleted successfully");
+        showSuccessMessage("Category deleted successfully");
     }
 
     const CategoryDelete = () => {
@@ -63,7 +54,7 @@ const AllCategory: React.FC = () => {
 
         return (
             <>
-                <ModalType
+                <ConfirmModal
                     show={show}
                     handleClose={() => setShow(false)}
                     handleShow={() => setShow(true)}
@@ -79,43 +70,23 @@ const AllCategory: React.FC = () => {
                     <Button variant="secondary" onClick={() => setShow(false)}>
                         Cancel
                     </Button>
-                </ModalType>
+                </ConfirmModal>
             </>
         )
     }
 
-    const categoryDelete = (id: number) => {
+    const categoryDelete = (id: any) => {
+        console.log("Iddd in deleteeee", id);
+        setDeleteId(id);
         setShow(true);
-        dispatchStore(deleteCategory(id));
     }
-
-    // const handleOnCategoryEditSubmit = (e: React.MouseEvent) => {
-    //     e.preventDefault();
-
-    //     console.log("value in onsubmit", values);
-
-    //     const isValid = ValidateCategory(values);
-    //     console.log("Is valid", isValid);
-    //     setError({
-    //         ...error,
-    //         [e.target.name]: error
-    //     })
-    //     console.log("hello err: ", error);
-    //     if (isValid) {
-    //         dispatchStore(editCategory(values.id, values));
-    //         setSuccess(true);
-    //         successMessage("Successfully category name updated to the table");
-    //         setEditShow(false);
-    //         console.log("Output values", values);       //printing result
-    //     }
-    // };
 
     const handleOnCategoryEditSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
 
         dispatchStore(editCategory(values.id, values));
         if (!error.categoryName) {
-            successMessage("Successfully category name updated to the table");
+            showSuccessMessage("Successfully category name updated to the table");
         }
         setSuccess(true);
         setEditShow(false);
@@ -156,7 +127,7 @@ const AllCategory: React.FC = () => {
 
         return (
             <>
-                <ModalType
+                <ConfirmModal
                     show={editShow}
                     handleClose={() => setEditShow(false)}
                     handleShow={() => setEditShow(true)}
@@ -172,7 +143,7 @@ const AllCategory: React.FC = () => {
                     <Button variant="secondary" onClick={() => setEditShow(false)}>
                         Close
                     </Button>
-                </ModalType>
+                </ConfirmModal>
             </>
         )
     }

@@ -6,7 +6,6 @@ import { addDept, getAllDept } from '../../../../action/action';
 import { DeptInputField, DeptInputFieldError } from '../../../../shared/types/type';
 import { initialStateDept, initialStateDeptError } from '../../../../shared/types/types';
 import successMessage from '../../../../shared/utils/alertMessage';
-import ValidateDept from '../../../../shared/utils/ValidateDepartment';
 import { store } from '../../../../store';
 import Buttons from '../../../common/button/index';
 import ModalType from '../../../common/modal';
@@ -26,25 +25,25 @@ const AddDepartmentModalData = () => {
         dispatchStore(getAllDept());
     }, [success]);
 
-    const departmentModalSubmit = async (e: React.MouseEvent) => {
-        e.preventDefault();
-        // deptModalClose();
+    // const departmentModalSubmit = async (e: React.MouseEvent) => {
+    //     e.preventDefault();
+    //     // deptModalClose();
 
-        const isValid = ValidateDept(values);
-        console.log("Is valid", isValid);
-        setError({
-            ...error,
-            [e.target.name]: error
-        })
-        console.log("hello err: ", error);
-        if (isValid) {
-            await dispatchStore(addDept(values));
-            setSuccess(true);
-            console.log("Output values", values);       //printing result 
-            successMessage("Successfully department added to the table");
-            setValues(initialStateDept);
-        }
-    };
+    //     const isValid = ValidateDept(values);
+    //     console.log("Is valid", isValid);
+    //     setError({
+    //         ...error,
+    //         [e.target.name]: error
+    //     })
+    //     console.log("hello err: ", error);
+    //     if (isValid) {
+    //         await dispatchStore(addDept(values));
+    //         setSuccess(true);
+    //         console.log("Output values", values);       //printing result 
+    //         successMessage("Successfully department added to the table");
+    //         setValues(initialStateDept);
+    //     }
+    // };
 
     return (
         <div className="addModal">

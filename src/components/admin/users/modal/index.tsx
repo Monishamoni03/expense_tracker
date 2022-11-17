@@ -3,7 +3,7 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import { InputFieldError, InputFieldUser } from "../../../../shared/types/type";
 import { initialStateError, initialStateUser } from "../../../../shared/types/types";
-import ModalType from "../../../common/modal";
+import ConfirmModal from "../../../common/modal";
 import { store } from "../../../../store";
 import { addUser, getAllUser } from "../../../../action/action";
 import ValidateUser from "../../../../shared/utils/ValidateUser";
@@ -54,7 +54,7 @@ const AddUserModalData = () => {
                 text="Add User"
             />
 
-            <ModalType
+            <ConfirmModal
                 show={show}
                 handleClose={() => setShow(false)}
                 handleShow={() => setShow(true)}
@@ -70,7 +70,7 @@ const AddUserModalData = () => {
                 <Button variant="secondary" onClick={() => setShow(false)}>
                     Close
                 </Button>
-            </ModalType>
+            </ConfirmModal>
 
         </div>
     );

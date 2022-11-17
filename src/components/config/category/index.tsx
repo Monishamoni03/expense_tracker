@@ -5,8 +5,9 @@ import { Button } from "react-bootstrap";
 import { addCategory, getAllCategory } from "../../../action/action";
 import { CategoryInputField, CategoryInputFieldError } from "../../../shared/types/type";
 import { initialStateCategory, initialStateCategoryError } from "../../../shared/types/types";
+import showSuccessMessage from "../../../shared/utils/alertMessage";
 import successMessage from "../../../shared/utils/alertMessage";
-import ValidateCategory from "../../../shared/utils/ValidateCategory";
+import ValidateFields from "../../../shared/utils/ValidateFields";
 import { store } from "../../../store";
 
 export const columnCategory: { title: string; key: string }[] = [
@@ -26,11 +27,18 @@ const AddModalCategory = () => {
 
     const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
 
-    const onCategory = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const onCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const errorMsg = ValidateFields(e.target.name, e.target.value);
         setValues({
             ...values,
             [e.target.name]: e.target.value
         })
+        setError({
+            ...error,
+            [e.target.name]: errorMsg
+        })
+
+        console.log("Login error: ", error)
     }
 
 
@@ -38,23 +46,12 @@ const AddModalCategory = () => {
         dispatchStore(getAllCategory());
     }, [success]);
 
-    const handleOnDepartmentSubmit = async (e: React.MouseEvent) => {
+    const handleOnCategorySubmit = (e: React.MouseEvent) => {
         e.preventDefault();
-        setShow(false);
 
-        const isValid = ValidateCategory(values);
-        console.log("Is valid", isValid);
-        setError({
-            ...error,
-            [e.target.name]: error
-        })
-        console.log("hello err: ", error);
-        if (isValid) {
-            await dispatchStore(addCategory(values));
-            setSuccess(true);
-            console.log("Output values", values);       //printing result 
-            successMessage("Successfully category added to the table");
-            setValues(initialStateCategory);
+        dispatchStore(addCategory(values));
+        if (!error.categoryName) {
+            showSuccessMessage("Successfully department added to the table");
         }
     };
 
@@ -64,10 +61,10 @@ const AddModalCategory = () => {
                 <div className='login-form'>
                     <label htmlFor="categoryName">Category Name <sup>*</sup></label>
                     <input onChange={(e) => onCategory(e)} name='categoryName' value={values.categoryName} placeholder="Enter the category name" required />
-                    <div style={{ color: "red" }}>{error.categoryNameError}</div>
+                    <div style={{ color: "red" }}>{error.categoryName}</div>
                 </div>
             </form>
-            <Button variant="primary" onClick={handleOnDepartmentSubmit}>
+            <Button variant="primary" onClick={handleOnCategorySubmit}>
                 Submit
             </Button>
         </>

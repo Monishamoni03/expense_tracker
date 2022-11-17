@@ -3,8 +3,9 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-const ModalType = (props) => {
-  const { show, handleClose, size, modalTitle, config } = props;
+const ConfirmModal = (props) => {
+
+  const { show, handleClose, size, modalTitle, message, config } = props;
   return (
     <Modal onClose={handleClose} size={size} show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -14,10 +15,11 @@ const ModalType = (props) => {
         </p>
       </Modal.Header>
 
-      <Modal.Body>{props.config}</Modal.Body>
+      <Modal.Body>{message}</Modal.Body>
+      <Modal.Body>{config}</Modal.Body>
       <Modal.Footer>{props.children}</Modal.Footer>
     </Modal>
   );
 };
 
-export default ModalType;
+export default ConfirmModal;

@@ -12,14 +12,13 @@ import "../../../assets/css/Style";
 import "../../login/index.css"
 import { initialStateDept, initialStateDeptError } from "../../../shared/types/types";
 import { DeptInputFieldError, DeptInputField } from "../../../shared/types/type";
-import ValidateDept from "../../../shared/utils/ValidateDepartment";
 import { Button } from "react-bootstrap";
 import NavBar from "../../common/navbar";
 import { columnDept } from "../../config/department";
-import successMessage from "../../../shared/utils/alertMessage";
-import ModalType from "../../common/modal";
+import ConfirmModal from "../../common/modal";
 import AddDepartmentModalData from "./modal";
 import ValidateFields from "../../../shared/utils/ValidateFields";
+import showSuccessMessage from "../../../shared/utils/alertMessage";
 
 const AllDepartment: React.FC = () => {
 
@@ -34,26 +33,19 @@ const AllDepartment: React.FC = () => {
     const [show, setShow] = useState(false);
     const [editShow, setEditShow] = useState(false);
 
+    const [deleteId, setDeleteId] = useState();
+
     const rowDept: RowProps[] = [] as RowProps[];
 
     useEffect(() => {
         dispatchStore(getAllDept());
     }, [success]);
 
-    // const departmentDelete = async (id: number) => {
-    //     if (window.confirm('Are you sure you want to delete this Department?')) {
-    //         await dispatchStore(deleteDept(id));
-    //         setSuccess(true);
-    //         successMessage("Department deleted successfully")
-    //     }
-    // }
-
-    const handleOnDepartmentDeleteSubmit = (e: React.MouseEvent) => {
-        e.preventDefault();
-        // dispatchStore(deleteDept(values.id));
+    const handleOnDepartmentDeleteSubmit = () => {
+        dispatchStore(deleteDept(deleteId));
         setSuccess(true);
         setShow(false);
-        successMessage("Department deleted successfully");
+        showSuccessMessage("Department deleted successfully");
     }
 
     const DepartmentDelete = () => {
@@ -61,7 +53,7 @@ const AllDepartment: React.FC = () => {
 
         return (
             <>
-                <ModalType
+                <ConfirmModal
                     show={show}
                     handleClose={() => setShow(false)}
                     handleShow={() => setShow(true)}
@@ -77,44 +69,23 @@ const AllDepartment: React.FC = () => {
                     <Button variant="secondary" onClick={() => setShow(false)}>
                         Cancel
                     </Button>
-                </ModalType>               
+                </ConfirmModal>               
             </>
         )
     }
 
-    const departmentDelete = (id: number) => {
+    const departmentDelete = (id: any) => {
         console.log("Iddd in deleteeee", id);
+        setDeleteId(id);
         setShow(true);
-        dispatchStore(deleteDept(id));
     }
-
-    // const handleOnDepartmentEditSubmit = (e: React.MouseEvent) => {
-    //     e.preventDefault();
-
-    //     console.log("value in onsubmit", values);
-
-    //     const isValid = ValidateFields(values);
-    //     console.log("Is valid", isValid);
-    //     setError({
-    //         ...error,
-    //         [e.target.name]: error
-    //     })
-    //     console.log("hello err: ", error);
-    //     if (isValid) {
-    //         dispatchStore(editDepartment(values.id, values));
-    //         setSuccess(true);
-    //         successMessage("Successfully department name updated to the table");
-    //         setEditShow(false);
-    //         console.log("Output values", values);       //printing result
-    //     }
-    // };
 
     const handleOnDepartmentEditSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
 
         dispatchStore(editDepartment(values.id, values));
         if (!error.deptName) {
-            successMessage("Successfully department name updated to the table");
+            showSuccessMessage("Successfully department name updated to the table");
         }
         setSuccess(true);
         setEditShow(false);
@@ -155,7 +126,7 @@ const AllDepartment: React.FC = () => {
 
         return (
             <>
-                <ModalType
+                <ConfirmModal
                     show={editShow}
                     handleClose={() => setEditShow(false)}
                     handleShow={() => setEditShow(true)}
@@ -171,7 +142,7 @@ const AllDepartment: React.FC = () => {
                     <Button variant="secondary" onClick={() => setEditShow(false)}>
                         Close
                     </Button>
-                </ModalType>
+                </ConfirmModal>
             </>
         )
     }

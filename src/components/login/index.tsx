@@ -1,7 +1,6 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import "../../assets/css/Style";
 import "./index.css";
-import ValidateUser from "../../shared/utils/ValidateUser";
 import { initialStates, initialStateError } from "../../shared/types/types";
 import NavBar from "../common/navbar";
 import Footer from "../common/footer";
@@ -13,7 +12,7 @@ import { useSelector } from "react-redux";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import 'react-toastify/dist/ReactToastify.css';
-import successMessage from "../../shared/utils/alertMessage";
+import showSuccessMessage from "../../shared/utils/alertMessage";
 import ValidateFields from "../../shared/utils/ValidateFields";
 
 const Login: React.FC = () => {
@@ -45,7 +44,7 @@ const Login: React.FC = () => {
 
         dispatchStore(loginData(values));
         if ((!error.email) && (!error.password)) {
-            successMessage("Successfully logged in");
+            showSuccessMessage("Successfully logged in");
         }
     };
 

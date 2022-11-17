@@ -64,19 +64,13 @@
       "email": "swethambari@gmail.com",
       "password": "Bari@123",
       "role": "Employee",
-      "id": 13
+      "id": 12
     },
     {
-      "email": "krithika27@gmail.com",
-      "password": "Krithika@123",
-      "role": "Accountant",
-      "id": 14
-    },
-    {
-      "email": "yalhini14@gmail.com",
-      "password": "Yalhu@123",
+      "email": "kalpana@gmail.com",
+      "password": "Kalpana@123",
       "role": "Employee",
-      "id": 15
+      "id": 13
     }
   ],
   "roles": [

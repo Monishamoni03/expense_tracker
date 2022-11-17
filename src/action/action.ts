@@ -74,10 +74,20 @@ export const allCategory = (users: UserState): any => ({
     payload: users
 })
 
-export const saveValue = (user): any => {
-    type: types.ADD_USER
+export const saveValue = (user): any => ({
+    type: types.ADD_USER,
     payload: user
-}
+})
+
+export const getSuccessMessage = (message) => ({
+    type: types.GET_SUCCESS_MESSAGE,
+    payload: message
+})
+
+export const getErrorMessage = (message) => ({
+    type: types.GET_ERROR_MESSAGE,
+    payload: message
+})
 
 export const loginData = (values: InputField) => (
     dispatch: Dispatch<any>
@@ -159,20 +169,30 @@ export const getAllUser = () => (
 ) => {
     axios.get("http://localhost:5000/user")
         .then((res) => {
-            dispatch(allUser(res.data));
-            console.log("Action all user: ", res.data);
+            if (res.status === 200) {
+                dispatch(allUser(res.data));
+                console.log("Action all user: ", res.data);
+            }
+            // dispatch(allUser(res.data));
+            // console.log("Action all user: ", res.data);
 
+        })
+        .catch((error) => {
+            console.log("Error in all user dispatch: ", error.response.data.error);
         })
 }
 
 export const getSingleUser = (id: any) => (
     dispatch: Dispatch<any>
 ) => {
-    axios.get(`http://localhost:5000/user/${id}`,id)
+    axios.get(`http://localhost:5000/user/${id}`, id)
         .then((res) => {
             dispatch(singleUser(res.data));
             console.log("Action single user: ", res.data);
 
+        })
+        .catch((error) => {
+            console.log("Error in get single user dispatch: ", error.response.data.error);
         })
 }
 
@@ -183,11 +203,21 @@ export const deleteUser = (id: any) => (
 
     axios.delete(`http://localhost:5000/user/${id}`, id)
         .then((res) => {
-            dispatch(deleteUserSuccess(res.data))
-            console.log("delete response : ", res.data)
+            if (res.status === 200) {
+                dispatch(deleteUserSuccess(res.data))
+                dispatch(getSuccessMessage(`User ID: ${id}, deleted successfully`))
+                console.log("delete response : ", res.data)
+                console.log("res.status", res.status);   //prints 200
+                console.log("res.message", res.data.message);    //undefined
+                
+                return { status: res.data.status }
+            }
+
         })
         .catch((error) => {
             console.log("Error in delete user dispatch: ", error)
+            dispatch(getErrorMessage(`This user ID: ${id} have not deleted`))
+            return { status: false}
         })
 }
 
@@ -300,6 +330,6 @@ export const getAllCategory = () => (
 
 export const saveUser = (user) => (
     dispatch: Dispatch<any>
-    ) => {
-        dispatch(saveValue(user));
-    }
+) => {
+    dispatch(saveValue(user));
+}

@@ -12,7 +12,8 @@ import { RowProps } from "../../../shared/types/type";
 const Admin: React.FC = () => {
 
   const users = useSelector((state: any) => state.userData.users);
-  const [success, setSuccess] = useState(false);
+  // const [success, setSuccess] = useState(false);
+
   const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>;
 
   const columnsUser: { title: string; key: string }[] = [
@@ -23,7 +24,7 @@ const Admin: React.FC = () => {
 
   useEffect(() => {
     dispatchStore(getAllUser());
-  }, [success]);
+  }, []);
 
 
   const rowUser: RowProps[] = [] as RowProps[];

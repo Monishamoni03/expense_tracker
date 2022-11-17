@@ -24,7 +24,9 @@ interface InputFieldUser {
     password?: string,
     role?: string,
     deptName?: string,
-    categoryName?: string
+    categoryName?: string,
+    successMessage?: any;
+    errorMessage?: string;
 }
 
 interface DeptInputField {
@@ -63,6 +65,8 @@ interface UserState {
     dept?: InputFieldUser;
     categories?: Array<InputFieldUser>;
     category?: InputFieldUser;
+    successMessage?: any;
+    errorMessage?: any;
 }
 
 

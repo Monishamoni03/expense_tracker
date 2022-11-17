@@ -8,6 +8,9 @@ const initialState: UserState = {
         password: '',
         role: '',
     },
+    successMessage: "",
+    errorMessage: "",
+
     // addUserSuccess: {
     //     email: "",
     //     password: "",
@@ -42,7 +45,9 @@ const userReducer = (state: UserState = initialState, action: UserActionsTypes):
         case types.DELETE_USER_SUCCESS:
             return {
                 ...state,
-                user: action.payload
+                user: action.payload,
+                successMessage: action.payload,
+                errorMessage: ""
             }
         case types.SINGLE_USER:
             return {
@@ -52,12 +57,26 @@ const userReducer = (state: UserState = initialState, action: UserActionsTypes):
         case types.GET_ALL_USER:
             return {
                 ...state,
-                users: action.payload
+                users: action.payload,
+                successMessage: action.payload,
+                errorMessage: ""
             }
         case types.ADD_USER:
             return {
                 ...state,
                 user: action.payload
+            }
+        case types.GET_SUCCESS_MESSAGE:
+            return {
+                ...state,
+                successMessage: action.payload,
+                errorMessage: ""
+            }
+        case types.GET_ERROR_MESSAGE:
+            return {
+                ...state,
+                successMessage: "",
+                errorMessage: action.payload
             }
         default:
             return state;
